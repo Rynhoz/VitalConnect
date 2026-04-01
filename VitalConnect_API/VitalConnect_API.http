@@ -1,0 +1,6 @@
+@VitalConnect_API_HostAddress = http://localhost:5084
+
+GET {{VitalConnect_API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
