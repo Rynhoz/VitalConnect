@@ -10,9 +10,9 @@ namespace VitalConnect_API.Controllers
     [ApiController]
     public class ProfesionalController : ControllerBase
     {
-        private readonly VitalConnectDbContext _context;
+        private readonly VT_DbContext _context;
 
-        public ProfesionalController(VitalConnectDbContext context)
+        public ProfesionalController(VT_DbContext context)
         {
             _context = context;
         }

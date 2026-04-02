@@ -11,9 +11,9 @@ namespace VitalConnect_API.Controllers
     public class CitaController : ControllerBase
     {
         
-        private readonly VitalConnectDbContext _context;
+        private readonly VT_DbContext _context;
 
-        public CitaController(VitalConnectDbContext context)
+        public CitaController(VT_DbContext context)
         {
             _context = context;
         }
