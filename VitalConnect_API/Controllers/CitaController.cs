@@ -27,8 +27,47 @@ namespace VitalConnect_API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(Cita cita)
         {
+            if (cita == null)
+                return BadRequest("Los datos de la cita son obligatorios.");
+
+            if (cita.Fecha == default)
+                return BadRequest("La fecha es obligatoria.");
+
+            if (string.IsNullOrWhiteSpace(cita.Hora))
+                return BadRequest("La hora es obligatoria.");
+
+            if (string.IsNullOrWhiteSpace(cita.EstadoCita))
+                return BadRequest("El estado de la cita es obligatorio.");
+
+            var pacienteExiste = await _context.Pacientes
+                .AnyAsync(x => x.IdUsuario == cita.IdPaciente);
+
+            if (!pacienteExiste)
+                return BadRequest("El paciente no existe.");
+
+            var profesionalExiste = await _context.Profesionales
+                .AnyAsync(x => x.IdUsuario == cita.IdProfesional);
+
+            if (!profesionalExiste)
+                return BadRequest("El profesional no existe.");
+
+            var asistenteExiste = await _context.Asistentes
+                .AnyAsync(x => x.IdUsuario == cita.IdAsistente);
+
+            if (!asistenteExiste)
+                return BadRequest("El asistente no existe.");
+
+            var citaDuplicada = await _context.Citas.AnyAsync(x =>
+                x.Fecha == cita.Fecha &&
+                x.Hora == cita.Hora &&
+                x.IdProfesional == cita.IdProfesional);
+
+            if (citaDuplicada)
+                return BadRequest("Ya existe una cita registrada en esa fecha y hora para ese profesional.");
+
             _context.Citas.Add(cita);
             await _context.SaveChangesAsync();
+
             return Ok(cita);
         }
 
@@ -36,7 +75,18 @@ namespace VitalConnect_API.Controllers
         public async Task<IActionResult> Put(int id, Cita cita)
         {
             var data = await _context.Citas.FindAsync(id);
-            if (data == null) return NotFound();
+
+            if (data == null)
+                return NotFound("No se encontró la cita.");
+
+            if (cita.Fecha == default)
+                return BadRequest("La fecha es obligatoria.");
+
+            if (string.IsNullOrWhiteSpace(cita.Hora))
+                return BadRequest("La hora es obligatoria.");
+
+            if (string.IsNullOrWhiteSpace(cita.EstadoCita))
+                return BadRequest("El estado de la cita es obligatorio.");
 
             data.Fecha = cita.Fecha;
             data.Hora = cita.Hora;
@@ -47,6 +97,7 @@ namespace VitalConnect_API.Controllers
             data.IdAsistente = cita.IdAsistente;
 
             await _context.SaveChangesAsync();
+
             return Ok(data);
         }
 

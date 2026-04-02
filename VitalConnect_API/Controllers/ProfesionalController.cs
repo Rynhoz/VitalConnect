@@ -26,8 +26,33 @@ namespace VitalConnect_API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(Profesional profesional)
         {
+            if (profesional == null)
+                return BadRequest("Los datos del profesional son obligatorios.");
+
+            if (string.IsNullOrWhiteSpace(profesional.NombreCompleto))
+                return BadRequest("El nombre completo es obligatorio.");
+
+            if (string.IsNullOrWhiteSpace(profesional.Telefono))
+                return BadRequest("El teléfono es obligatorio.");
+
+            if (string.IsNullOrWhiteSpace(profesional.CI))
+                return BadRequest("El CI es obligatorio.");
+
+            if (string.IsNullOrWhiteSpace(profesional.MatriculaProfesional))
+                return BadRequest("La matrícula profesional es obligatoria.");
+
+            if (string.IsNullOrWhiteSpace(profesional.Especialidad))
+                return BadRequest("La especialidad es obligatoria.");
+
+            var existeCI = await _context.Profesionales
+                .AnyAsync(x => x.CI == profesional.CI);
+
+            if (existeCI)
+                return BadRequest("Ya existe un profesional con ese CI.");
+
             _context.Profesionales.Add(profesional);
             await _context.SaveChangesAsync();
+
             return Ok(profesional);
         }
 
@@ -35,7 +60,24 @@ namespace VitalConnect_API.Controllers
         public async Task<IActionResult> Put(int id, Profesional profesional)
         {
             var data = await _context.Profesionales.FindAsync(id);
-            if (data == null) return NotFound();
+
+            if (data == null)
+                return NotFound("No se encontró el profesional.");
+
+            if (string.IsNullOrWhiteSpace(profesional.NombreCompleto))
+                return BadRequest("El nombre completo es obligatorio.");
+
+            if (string.IsNullOrWhiteSpace(profesional.Telefono))
+                return BadRequest("El teléfono es obligatorio.");
+
+            if (string.IsNullOrWhiteSpace(profesional.CI))
+                return BadRequest("El CI es obligatorio.");
+
+            if (string.IsNullOrWhiteSpace(profesional.MatriculaProfesional))
+                return BadRequest("La matrícula profesional es obligatoria.");
+
+            if (string.IsNullOrWhiteSpace(profesional.Especialidad))
+                return BadRequest("La especialidad es obligatoria.");
 
             data.NombreCompleto = profesional.NombreCompleto;
             data.Telefono = profesional.Telefono;
@@ -45,6 +87,7 @@ namespace VitalConnect_API.Controllers
             data.Especialidad = profesional.Especialidad;
 
             await _context.SaveChangesAsync();
+
             return Ok(data);
         }
 
