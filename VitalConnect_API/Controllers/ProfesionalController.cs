@@ -18,13 +18,13 @@ namespace VitalConnect_API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<ActionResult<IEnumerable<Profesional>>> Get()
         {
             return Ok(await _context.Profesionales.ToListAsync());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Profesional profesional)
+        public async Task<ActionResult> Post(Profesional profesional)
         {
             if (profesional == null)
                 return BadRequest("Los datos del profesional son obligatorios.");
@@ -57,7 +57,7 @@ namespace VitalConnect_API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, Profesional profesional)
+        public async Task<ActionResult> Put(int id, Profesional profesional)
         {
             var data = await _context.Profesionales.FindAsync(id);
 
@@ -92,7 +92,7 @@ namespace VitalConnect_API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             var data = await _context.Profesionales.FindAsync(id);
             if (data == null) return NotFound();

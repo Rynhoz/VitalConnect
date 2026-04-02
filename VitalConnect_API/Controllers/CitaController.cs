@@ -19,13 +19,13 @@ namespace VitalConnect_API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<ActionResult<IEnumerable<Cita>>> Get()
         {
             return Ok(await _context.Citas.ToListAsync());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Cita cita)
+        public async Task<ActionResult> Post(Cita cita)
         {
             if (cita == null)
                 return BadRequest("Los datos de la cita son obligatorios.");
@@ -72,7 +72,7 @@ namespace VitalConnect_API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, Cita cita)
+        public async Task<ActionResult> Put(int id, Cita cita)
         {
             var data = await _context.Citas.FindAsync(id);
 
@@ -102,7 +102,7 @@ namespace VitalConnect_API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             var data = await _context.Citas.FindAsync(id);
             if (data == null) return NotFound();
