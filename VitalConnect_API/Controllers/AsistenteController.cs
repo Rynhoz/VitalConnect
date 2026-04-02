@@ -7,5 +7,6 @@ namespace VitalConnect_API.Controllers
     [ApiController]
     public class AsistenteController : ControllerBase
     {
+
     }
 }
