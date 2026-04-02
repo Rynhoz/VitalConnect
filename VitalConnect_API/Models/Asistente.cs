@@ -4,6 +4,6 @@
     {
         public string Turno { get; set; } = string.Empty;
 
-        public List<Cita> Citas { get; set; } = new ();
+        //public List<Cita> Citas { get; set; } = new ();
     }
 }

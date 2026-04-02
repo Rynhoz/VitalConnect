@@ -46,7 +46,39 @@ namespace VitalConnect_API.Controllers
             if(string.IsNullOrWhiteSpace(asistente.Rol)) return BadRequest("Debe Ingresar el Rol correctamente");
 
             if (string.IsNullOrWhiteSpace(asistente.Turno)) return BadRequest("Debe Ingresar el Turno correctamente");
-            return Ok();
+
+            _context.Asistentes.Add(asistente);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof (GetAsistente), new {id = asistente.ID}, asistente);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateAsistente(int id, Asistente asistente)
+        {
+            var assistant = await _context.Asistentes.FindAsync(id);
+
+            if (asistente == null) return NotFound();
+
+            if (string.IsNullOrWhiteSpace(asistente.NombreCompleto)) return BadRequest("Debe Ingresar el Nombre Completo correctamente");
+
+            if (string.IsNullOrWhiteSpace(asistente.Telefono)) return BadRequest("Debe Ingresar el Telefono correctamente");
+
+            if (string.IsNullOrWhiteSpace(asistente.CI)) return BadRequest("Debe Ingresar el CI correctamente");
+
+            if (string.IsNullOrWhiteSpace(asistente.Rol)) return BadRequest("Debe Ingresar el Rol correctamente");
+
+            if (string.IsNullOrWhiteSpace(asistente.Turno)) return BadRequest("Debe Ingresar el Turno correctamente");
+
+            assistant.NombreCompleto = asistente.NombreCompleto;
+            assistant.Telefono = asistente.Telefono;
+            assistant.CI = asistente.CI;
+            assistant.Rol = asistente.Rol;
+            assistant.Turno = asistente.Turno;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(assistant);
         }
     }
 }

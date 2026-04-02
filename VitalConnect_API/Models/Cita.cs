@@ -14,7 +14,7 @@
         public int IdProfesional { get; set; }
         public Profesional? Profesional { get; set; }
 
-        public int IdAsistente { get; set; }
+        public int? IdAsistente { get; set; }
         public Asistente? Asistente { get; set; }
 
         public FichaAtencion? FichaAtencion { get; set; }
