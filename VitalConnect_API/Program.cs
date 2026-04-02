@@ -1,8 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using VitalConnect_API.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+builder.Services.AddDbContext<VT_DbContext>(options =>
+    options.UseSqlite("Data Source=VitalConnect.db"));
+
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
