@@ -2,7 +2,8 @@
 {
     public class Asistente : Usuario
     {
-        public int IdAsistente { get; set; }
         public string Turno { get; set; } = string.Empty;
+
+        public List<Cita> Citas { get; set; } = new ();
     }
 }
