@@ -40,19 +40,19 @@ namespace VitalConnect_API.Controllers
                 return BadRequest("El estado de la cita es obligatorio.");
 
             var pacienteExiste = await _context.Pacientes
-                .AnyAsync(x => x.IdUsuario == cita.IdPaciente);
+                .AnyAsync(x => x.ID == cita.IdPaciente);
 
             if (!pacienteExiste)
                 return BadRequest("El paciente no existe.");
 
             var profesionalExiste = await _context.Profesionales
-                .AnyAsync(x => x.IdUsuario == cita.IdProfesional);
+                .AnyAsync(x => x.ID == cita.IdProfesional);
 
             if (!profesionalExiste)
                 return BadRequest("El profesional no existe.");
 
             var asistenteExiste = await _context.Asistentes
-                .AnyAsync(x => x.IdUsuario == cita.IdAsistente);
+                .AnyAsync(x => x.ID == cita.IdAsistente);
 
             if (!asistenteExiste)
                 return BadRequest("El asistente no existe.");
