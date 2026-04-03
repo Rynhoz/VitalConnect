@@ -1,4 +1,6 @@
-﻿namespace VitalConnect_API.Models
+﻿using System.Text.Json.Serialization;
+
+namespace VitalConnect_API.Models
 {
     public class DetalleReceta
     {
@@ -7,8 +9,10 @@
         public string Frecuencia { get; set; } = string.Empty;
         public string Duracion { get; set; } = string.Empty;
         public int IdReceta { get; set; }
+        [JsonIgnore]
         public Receta? Receta { get; set; }
         public int IdMedicamento { get; set; }
+        [JsonIgnore]
         public Medicamento? Medicamento { get; set; }
     }
 }
