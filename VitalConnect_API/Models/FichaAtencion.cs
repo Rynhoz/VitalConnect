@@ -1,4 +1,6 @@
-﻿namespace VitalConnect_API.Models
+﻿using System.Text.Json.Serialization;
+
+namespace VitalConnect_API.Models
 {
     public class FichaAtencion
     {
@@ -6,11 +8,12 @@
         public DateTime FechaAtencion { get; set; }
 
         public string Diagnostico { get; set; } = string.Empty;
-        public string Tratamiento { get; set; } = string.Empty;
+        public string Indicaciones { get; set; } = string.Empty;
 
         public int IdCita { get; set; }
+        [JsonIgnore]
         public Cita? Cita { get; set; }
-        public List<DetalleReceta> DetallesReceta { get; set; } = new ();
+        public List<Receta> Recetas { get; set; } = new ();
 
     }
 }
