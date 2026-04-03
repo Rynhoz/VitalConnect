@@ -30,7 +30,7 @@ namespace VitalConnect_API.Controllers
         public async Task<ActionResult<FichaAtencion>> GetFicha(int id)
         {
             var ficha = await _context.FichaAtencion.Include(f => f.Recetas).ThenInclude(r => r.DetallesReceta)
-                .FirstOrDefaultAsync(f => f.IdFicha == id);
+                .FirstOrDefaultAsync(f => f.FichaId == id);
 
             if (ficha is null)
             {
@@ -59,7 +59,7 @@ namespace VitalConnect_API.Controllers
                 return BadRequest("Las indicaciones son obligatorias");
             }
 
-            var cita = await _context.Citas.FirstOrDefaultAsync(c => c.IdCita == ficha.IdCita);
+            var cita = await _context.Citas.FirstOrDefaultAsync(c => c.CitaId == ficha.IdCita);
             if (cita is null)
             {
                 return BadRequest("La cita no existe");
@@ -81,14 +81,14 @@ namespace VitalConnect_API.Controllers
             _context.FichaAtencion.Add(ficha);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetFicha), new { id = ficha.IdFicha }, ficha);
+            return CreatedAtAction(nameof(GetFicha), new { id = ficha.FichaId }, ficha);
         }
 
 
         [HttpPut("{id}")]
         public async Task<ActionResult<FichaAtencion>> UpdateFicha(int id, FichaAtencion ficha)
         {
-            var fichaObj = await _context.FichaAtencion.FirstOrDefaultAsync(f => f.IdFicha == id);
+            var fichaObj = await _context.FichaAtencion.FirstOrDefaultAsync(f => f.FichaId == id);
 
             if (fichaObj is null)
             {
@@ -123,7 +123,7 @@ namespace VitalConnect_API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFicha(int id)
         {
-            var ficha = await _context.FichaAtencion.FirstOrDefaultAsync(f => f.IdFicha == id);
+            var ficha = await _context.FichaAtencion.FirstOrDefaultAsync(f => f.FichaId == id);
 
             if (ficha is null)
             {

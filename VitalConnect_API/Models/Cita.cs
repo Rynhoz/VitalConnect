@@ -4,7 +4,7 @@ namespace VitalConnect_API.Models
 {
     public class Cita
     {
-        public int IdCita { get; set; }
+        public int CitaId { get; set; }
         public DateTime Fecha { get; set; }
         public string Hora { get; set; } = string.Empty;
 
