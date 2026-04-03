@@ -46,10 +46,9 @@ namespace VitalConnect_API.Controllers
 
             if (string.IsNullOrWhiteSpace(asistente.CI)) return BadRequest("Debe Ingresar el CI correctamente");
 
-            if(string.IsNullOrWhiteSpace(asistente.Rol)) return BadRequest("Debe Ingresar el Rol correctamente");
-
             if (string.IsNullOrWhiteSpace(asistente.Turno)) return BadRequest("Debe Ingresar el Turno correctamente");
 
+            asistente.Rol = "Asistente";
             _context.Asistentes.Add(asistente);
             await _context.SaveChangesAsync();
 
