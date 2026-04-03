@@ -12,15 +12,15 @@ namespace VitalConnect_API.Models
         public bool Estado { get; set; } = true;
         public int IdPaciente { get; set; }
         [JsonIgnore]
-        public Paciente? Paciente { get; set; }
+        public Paciente Paciente { get; set; }
 
         public int IdProfesional { get; set; }
         [JsonIgnore]
-        public Profesional? Profesional { get; set; }
+        public Profesional Profesional { get; set; }
 
         public int? IdAsistente { get; set; }
         [JsonIgnore]
-        public Asistente? Asistente { get; set; }
+        public Asistente Asistente { get; set; }
 
         public FichaAtencion? FichaAtencion { get; set; }
         
