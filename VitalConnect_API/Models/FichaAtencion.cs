@@ -4,7 +4,7 @@ namespace VitalConnect_API.Models
 {
     public class FichaAtencion
     {
-        public int FichaId { get; set; }
+        public int FichaAtencionId { get; set; }
         public DateTime FechaAtencion { get; set; }
 
         public string Diagnostico { get; set; } = string.Empty;

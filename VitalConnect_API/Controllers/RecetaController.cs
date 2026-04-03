@@ -37,7 +37,7 @@ namespace VitalConnect_API.Controllers
                 return BadRequest("El Id de la ficha es obligatorio.");
 
             var fichaExiste = await _context.FichaAtencion
-                .AnyAsync(x => x.FichaId == receta.IdFicha);
+                .AnyAsync(x => x.FichaAtencionId == receta.IdFicha);
 
             if (!fichaExiste)
                 return BadRequest("La ficha de atención no existe.");
@@ -63,7 +63,7 @@ namespace VitalConnect_API.Controllers
                 return BadRequest("El Id de la ficha es obligatorio.");
 
             var fichaExiste = await _context.FichaAtencion
-                .AnyAsync(x => x.FichaId == receta.IdFicha);
+                .AnyAsync(x => x.FichaAtencionId == receta.IdFicha);
 
             if (!fichaExiste)
                 return BadRequest("La ficha de atención no existe.");

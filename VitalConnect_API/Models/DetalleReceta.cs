@@ -4,7 +4,7 @@ namespace VitalConnect_API.Models
 {
     public class DetalleReceta
     {
-        public int DetalleId { get; set; }
+        public int DetalleRecetaId { get; set; }
         public string Dosis { get; set; } = string.Empty;
         public string Frecuencia { get; set; } = string.Empty;
         public string Duracion { get; set; } = string.Empty;
