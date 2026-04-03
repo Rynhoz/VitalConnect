@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using VitalConnect_API.Data;
 using VitalConnect_API.Models;
@@ -29,7 +30,7 @@ namespace VitalConnect_API.Controllers
         {
             var asistente = await _context.Asistentes.FindAsync(id);
 
-            if (asistente == null) return NotFound();
+            if (asistente == null) return NotFound("El ID del Usuario no existe");
 
             return Ok(asistente);
         }
@@ -37,6 +38,7 @@ namespace VitalConnect_API.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateAsistente(Asistente asistente)
         {
+            //Validar campos
             if (string.IsNullOrWhiteSpace(asistente.NombreCompleto)) return BadRequest("Debe Ingresar el Nombre Completo correctamente");
 
             if(string.IsNullOrWhiteSpace(asistente.Telefono)) return BadRequest("Debe Ingresar el Telefono correctamente");
@@ -58,7 +60,8 @@ namespace VitalConnect_API.Controllers
         {
             var assistant = await _context.Asistentes.FindAsync(id);
 
-            if (asistente == null) return NotFound();
+            //comprobar que existan los objetos
+            if (assistant == null || asistente == null) return NotFound();
 
             if (string.IsNullOrWhiteSpace(asistente.NombreCompleto)) return BadRequest("Debe Ingresar el Nombre Completo correctamente");
 
@@ -74,11 +77,43 @@ namespace VitalConnect_API.Controllers
             assistant.Telefono = asistente.Telefono;
             assistant.CI = asistente.CI;
             assistant.Rol = asistente.Rol;
+            assistant.Estado = asistente.Estado;
             assistant.Turno = asistente.Turno;
 
+            //guardar cambios
             await _context.SaveChangesAsync();
 
             return Ok(assistant);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsistente(int id)
+        {
+            var asistente = await _context.Asistentes.FindAsync(id);
+            
+            if (asistente == null) return NotFound("El ID del Usuario no existe");
+
+            //remover objeto
+            _context.Asistentes.Remove(asistente);
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        //para cambiar el estado de un asistente sin eliminarlo
+        [HttpPatch("{id}/cambiar-estado")]
+        public async Task<IActionResult> PatchEstadoAsistente(int id)
+        {
+            var asistente = await _context.Asistentes.FindAsync(id);
+
+            if (asistente == null) return NotFound("El ID del Usuario no existe");
+
+            asistente.Estado = !asistente.Estado;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new { id = asistente.ID, estado = asistente.Estado });
         }
     }
 }
