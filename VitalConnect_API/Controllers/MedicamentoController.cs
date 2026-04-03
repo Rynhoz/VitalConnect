@@ -18,25 +18,36 @@ namespace VitalConnect_API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Medicamento>>> Get()
+
+        public async Task<IActionResult> GetMedicamentos()
         {
-            return Ok(await _context.Medicamentos.ToListAsync());
+            var medicamentos = await _context.Medicamentos.ToListAsync();
+            return Ok(medicamentos);
         }
+
+        [HttpGet("{id}")]
+
+        public async Task<ActionResult<Medicamento>> GetMedicamento(int id)
+        {
+            var medicamento = await _context.Medicamentos.FirstOrDefaultAsync(m => m.MedicamentoId == id);
+            if (medicamento is null)
+            {
+                return NotFound("Medicamento no encontrado");
+            }
+            return Ok(medicamento);
+        }
+
 
         [HttpPost]
         public async Task<ActionResult> Post(Medicamento medicamento)
         {
-            if (medicamento == null)
-                return BadRequest("Los datos del medicamento son obligatorios.");
-
             if (string.IsNullOrWhiteSpace(medicamento.Nombre))
                 return BadRequest("El nombre del medicamento es obligatorio.");
 
             if (string.IsNullOrWhiteSpace(medicamento.Descripcion))
                 return BadRequest("La descripción es obligatoria.");
 
-            var existeMedicamento = await _context.Medicamentos
-                .AnyAsync(x => x.Nombre == medicamento.Nombre);
+            var existeMedicamento = await _context.Medicamentos.AnyAsync(x => x.Nombre == medicamento.Nombre);
 
             if (existeMedicamento)
                 return BadRequest("Ya existe un medicamento con ese nombre.");
@@ -48,11 +59,11 @@ namespace VitalConnect_API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, Medicamento medicamento)
+        public async Task<ActionResult<Medicamento>> Put(int id, Medicamento medicamento)
         {
-            var data = await _context.Medicamentos.FindAsync(id);
+            var medicamentoObj = await _context.Medicamentos.FirstOrDefaultAsync(m => m.MedicamentoId == id);
 
-            if (data == null)
+            if (medicamentoObj == null)
                 return NotFound("No se encontró el medicamento.");
 
             if (string.IsNullOrWhiteSpace(medicamento.Nombre))
@@ -61,28 +72,51 @@ namespace VitalConnect_API.Controllers
             if (string.IsNullOrWhiteSpace(medicamento.Descripcion))
                 return BadRequest("La descripción es obligatoria.");
 
-            data.Nombre = medicamento.Nombre;
-            data.Descripcion = medicamento.Descripcion;
-            data.Estado = medicamento.Estado;
+            medicamentoObj.Nombre = medicamento.Nombre;
+            medicamentoObj.Descripcion = medicamento.Descripcion;
+            medicamentoObj.Estado = medicamento.Estado;
 
             await _context.SaveChangesAsync();
 
-            return Ok(data);
+            return Ok(medicamentoObj);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        [HttpPatch("{id}/cambiar-estado")]
+
+        public async Task<IActionResult> CambiarEstadoMedicamento(int id)
         {
-            var data = await _context.Medicamentos.FindAsync(id);
+            var medicamento = await _context.Medicamentos.FirstOrDefaultAsync(m => m.MedicamentoId == id);
 
-            if (data == null)
-                return NotFound("No se encontró el medicamento.");
+            if (medicamento == null)
+            {
+                return NotFound("El medicamento no fue encontrado");
+            }
 
-            _context.Medicamentos.Remove(data);
+            medicamento.Estado = !medicamento.Estado; 
             await _context.SaveChangesAsync();
 
             return Ok();
-
         }
+
+        [HttpGet("buscar/{nombre}")]
+        public async Task<IActionResult> BuscarMedicamentoPorNombre(string nombre)
+        {
+            if (string.IsNullOrWhiteSpace(nombre))
+            {
+                return BadRequest("El nombre es obligatorio");
+            }
+
+            var medicamentos = await _context.Medicamentos.Where(m => m.Nombre.Contains(nombre) && m.Estado)
+                .ToListAsync();
+
+            if (!medicamentos.Any())
+            {
+                return NotFound("No se encontraron medicamentos");
+            }
+
+            return Ok(medicamentos);
+        }
+
+
     }
 }

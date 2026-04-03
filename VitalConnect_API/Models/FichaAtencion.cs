@@ -9,6 +9,7 @@ namespace VitalConnect_API.Models
 
         public string Diagnostico { get; set; } = string.Empty;
         public string Indicaciones { get; set; } = string.Empty;
+        public bool Estado { get; set; } = true;
 
         public int IdCita { get; set; }
         [JsonIgnore]

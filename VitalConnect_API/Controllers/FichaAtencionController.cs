@@ -119,22 +119,23 @@ namespace VitalConnect_API.Controllers
             return Ok(fichaObj);
         }
 
-        
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFicha(int id)
+        [HttpPatch("{id}/cambiar-estado")]
+
+        public async Task<IActionResult> CambiarEstadoFechaAtencion(int id)
         {
             var ficha = await _context.FichaAtencion.FirstOrDefaultAsync(f => f.FichaAtencionId == id);
 
-            if (ficha is null)
+            if (ficha == null)
             {
-                return NotFound("Ficha no encontrada");
+                return NotFound("La ficha de atención no fue encontrado");
             }
 
-            _context.FichaAtencion.Remove(ficha);
+            ficha.Estado = !ficha.Estado;
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
+
 
 
         [HttpGet("por-cita/{idCita}")]

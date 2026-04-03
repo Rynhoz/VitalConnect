@@ -115,5 +115,7 @@ namespace VitalConnect_API.Controllers
 
             return Ok(new { id = asistente.ID, estado = asistente.Estado });
         }
+
+
     }
 }
