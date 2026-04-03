@@ -58,7 +58,7 @@ namespace VitalConnect_API.Controllers
         {
             var assistant = await _context.Asistentes.FindAsync(id);
 
-            if (asistente == null) return NotFound();
+            if (asistente is null) return NotFound("El paciente no se encontro");
 
             if (string.IsNullOrWhiteSpace(asistente.NombreCompleto)) return BadRequest("Debe Ingresar el Nombre Completo correctamente");
 
