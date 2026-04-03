@@ -7,6 +7,9 @@ namespace VitalConnect_API.Data
     {
         public VT_DbContext(DbContextOptions<VT_DbContext> options) : base(options) { }
 
+
+        public DbSet<Usuario> Usuarios { get; set; }
+
         //Para Profesionales
         public DbSet<Profesional> Profesionales { get; set; }
 
@@ -29,5 +32,13 @@ namespace VitalConnect_API.Data
         public DbSet<Receta> Recetas { get; set; }
 
         public DbSet<DetalleReceta> DetalleReceta { get; set; }
+
+        //Para la existencia de las 3 tablas de Paciente, Profesional y Asistente
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Profesional>().ToTable("Profesionales");
+            modelBuilder.Entity<Paciente>().ToTable("Pacientes");
+            modelBuilder.Entity<Asistente>().ToTable("Asistentes");
+        }
     }
 }

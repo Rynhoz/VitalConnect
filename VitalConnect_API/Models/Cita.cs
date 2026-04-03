@@ -22,8 +22,5 @@ namespace VitalConnect_API.Models
         [JsonIgnore]
         public Asistente? Asistente { get; set; }
 
-        public FichaAtencion? FichaAtencion { get; set; }
-        
-
     }
 }
