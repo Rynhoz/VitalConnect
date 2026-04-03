@@ -40,11 +40,10 @@ namespace VitalConnect_API.Controllers
             return Ok(ficha);
         }
 
-        
+
         [HttpPost]
         public async Task<ActionResult<FichaAtencion>> CreateFicha(FichaAtencion ficha)
         {
-
             if (ficha.FechaAtencion == default)
             {
                 return BadRequest("La fecha de atención es obligatoria");
@@ -60,23 +59,25 @@ namespace VitalConnect_API.Controllers
                 return BadRequest("Las indicaciones son obligatorias");
             }
 
-            var cita = await _context.Citas.Include(c => c.FichaAtencion).FirstOrDefaultAsync(c => c.IdCita == ficha.IdCita);
-
+            var cita = await _context.Citas.FirstOrDefaultAsync(c => c.IdCita == ficha.IdCita);
             if (cita is null)
             {
                 return BadRequest("La cita no existe");
             }
-
-            if (cita.FichaAtencion != null)
+                
+            // Varificar que la ficha no exista en otra cita
+            var fichaExistente = await _context.FichaAtencion.FirstOrDefaultAsync(f => f.IdCita == ficha.IdCita);
+            if (fichaExistente != null)
             {
                 return BadRequest("La cita ya tiene una ficha de atención");
             }
+                
 
             if (ficha.FechaAtencion < cita.Fecha)
             {
                 return BadRequest("La fecha de atención no puede ser menor a la cita");
             }
-
+                
             _context.FichaAtencion.Add(ficha);
             await _context.SaveChangesAsync();
 
