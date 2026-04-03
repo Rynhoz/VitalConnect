@@ -12,7 +12,7 @@ namespace VitalConnect_API.Models
 
         public int? IdCita { get; set; }
         [JsonIgnore]
-        public Cita Cita { get; set; }
+        public Cita? Cita { get; set; }
 
         [JsonIgnore]
         public List<Receta> Recetas { get; set; } = new ();

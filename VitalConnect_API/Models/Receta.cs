@@ -9,7 +9,7 @@ namespace VitalConnect_API.Models
 
         public int IdFicha { get; set; }
         [JsonIgnore]
-        public FichaAtencion FichaAtencion { get; set; }
+        public FichaAtencion FichaAtencion { get; set; } = null!;
 
         public List<DetalleReceta> DetallesReceta { get; set; } = new ();
 
