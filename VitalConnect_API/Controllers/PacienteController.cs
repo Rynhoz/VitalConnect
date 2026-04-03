@@ -164,17 +164,16 @@ namespace VitalConnect_API.Controllers
         [HttpPatch("{id}/cambiar-estado")]
         public async Task<IActionResult> CambiarEstadoPaciente(int id)
         {
-            var paciente = await _context.Pacientes
-                .FirstOrDefaultAsync(p => p.ID == id);
+            var paciente = await _context.Pacientes.FirstOrDefaultAsync(p => p.ID == id);
 
-            if (paciente == null)
+            if (paciente is null)
             {
                 return NotFound("El paciente no fue encontrado");
             }
 
-            var tieneCitas = await _context.Citas.AnyAsync(c => c.IdPaciente == id && c.Estado);
+            var TieneCitas = await _context.Citas.AnyAsync(c => c.IdPaciente == id && c.Estado);
 
-            if (tieneCitas && paciente.Estado)
+            if (TieneCitas && paciente.Estado)
             {
                 return BadRequest("No se puede desactivar un paciente con citas activas");
             }

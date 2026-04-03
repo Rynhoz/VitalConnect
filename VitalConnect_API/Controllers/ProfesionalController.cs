@@ -18,19 +18,31 @@ namespace VitalConnect_API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Profesional>>> Get()
+        public async Task<IActionResult> GetProfesionales()
         {
-            return Ok(await _context.Profesionales.ToListAsync());
+            var profesionales = await _context.Profesionales.ToListAsync();
+            return Ok(profesionales);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Profesional>> GetProfesional(int id)
+        {
+            var profesional = await _context.Profesionales.Include(p => p.Citas)
+                .FirstOrDefaultAsync(p => p.ID == id);
+
+            if (profesional is null)
+            {
+                return NotFound("Profesional no encontrado");
+            }
+
+            return Ok(profesional);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(Profesional profesional)
+        public async Task<ActionResult<Profesional>> CreateProfesional(Profesional profesional)
         {
-            if (profesional == null)
-                return BadRequest("Los datos del profesional son obligatorios.");
-
             if (string.IsNullOrWhiteSpace(profesional.NombreCompleto))
-                return BadRequest("El nombre completo es obligatorio.");
+                return BadRequest("El nombre es obligatorio.");
 
             if (string.IsNullOrWhiteSpace(profesional.Telefono))
                 return BadRequest("El teléfono es obligatorio.");
@@ -44,24 +56,29 @@ namespace VitalConnect_API.Controllers
             if (string.IsNullOrWhiteSpace(profesional.Especialidad))
                 return BadRequest("La especialidad es obligatoria.");
 
-            var existeCI = await _context.Profesionales
-                .AnyAsync(x => x.CI == profesional.CI);
+            var CIexistente = await _context.Profesionales.AnyAsync(p => p.CI == profesional.CI);
 
-            if (existeCI)
-                return BadRequest("Ya existe un profesional con ese CI.");
+            if (CIexistente)
+            {
+                return BadRequest("El CI ya está registrado");
+            }
+
+            profesional.Rol = "Profesional";
+            profesional.Estado = true;
 
             _context.Profesionales.Add(profesional);
             await _context.SaveChangesAsync();
 
-            return Ok(profesional);
+            return CreatedAtAction(nameof(GetProfesional), new { id = profesional.ID }, profesional);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, Profesional profesional)
-        {
-            var data = await _context.Profesionales.FindAsync(id);
 
-            if (data == null)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Profesional>> UpdateProfesional(int id, Profesional profesional)
+        {
+            var Objprofesional = await _context.Profesionales.FirstOrDefaultAsync(p => p.ID == id);
+
+            if (Objprofesional is null)
                 return NotFound("No se encontró el profesional.");
 
             if (string.IsNullOrWhiteSpace(profesional.NombreCompleto))
@@ -79,26 +96,53 @@ namespace VitalConnect_API.Controllers
             if (string.IsNullOrWhiteSpace(profesional.Especialidad))
                 return BadRequest("La especialidad es obligatoria.");
 
-            data.NombreCompleto = profesional.NombreCompleto;
-            data.Telefono = profesional.Telefono;
-            data.CI = profesional.CI;
-            data.Estado = profesional.Estado;
-            data.MatriculaProfesional = profesional.MatriculaProfesional;
-            data.Especialidad = profesional.Especialidad;
+            Objprofesional.NombreCompleto = profesional.NombreCompleto;
+            Objprofesional.Telefono = profesional.Telefono;
+            Objprofesional.CI = profesional.CI;
+            Objprofesional.Estado = profesional.Estado;
+            Objprofesional.MatriculaProfesional = profesional.MatriculaProfesional;
+            Objprofesional.Especialidad = profesional.Especialidad;
 
             await _context.SaveChangesAsync();
 
-            return Ok(data);
+            return Ok(Objprofesional);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+
+        [HttpPatch("{id}/cambiar-estado")]
+        public async Task<IActionResult> CambiarEstadoProfesional(int id)
         {
-            var data = await _context.Profesionales.FindAsync(id);
-            if (data == null) return NotFound();
-            _context.Profesionales.Remove(data);
+            var profesional = await _context.Profesionales.FirstOrDefaultAsync(p => p.ID == id);
+
+            if (profesional == null)
+            {
+                return NotFound("El profesional no fue encontrado");
+            }
+
+            profesional.Estado = !profesional.Estado;
+
             await _context.SaveChangesAsync();
-            return Ok();
+
+            return Ok(profesional);
+        }
+
+        [HttpGet("especialidad")]
+        public async Task<ActionResult<List<Profesional>>> GetPorEspecialidad(string especialidad)
+        {
+            if (string.IsNullOrWhiteSpace(especialidad))
+            {
+                return BadRequest("La especialidad es obligatoria");
+            }
+
+            var profesionales = await _context.Profesionales.Where(p => p.Estado && p.Especialidad.Contains(especialidad))
+                .ToListAsync();
+
+            if (!profesionales.Any())
+            {
+                return NotFound("No se encontraron profesionales con esa especialidad");
+            }
+
+            return Ok(profesionales);
         }
     }
 }

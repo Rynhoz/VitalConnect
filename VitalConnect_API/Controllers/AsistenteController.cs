@@ -30,7 +30,8 @@ namespace VitalConnect_API.Controllers
         {
             var asistente = await _context.Asistentes.FindAsync(id);
 
-            if (asistente == null) return NotFound("El ID del Usuario no existe");
+            if (asistente == null) 
+                return NotFound("El ID del Usuario no existe");
 
             return Ok(asistente);
         }

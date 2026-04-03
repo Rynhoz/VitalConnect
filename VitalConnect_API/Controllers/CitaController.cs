@@ -24,6 +24,7 @@ namespace VitalConnect_API.Controllers
             return Ok(await _context.Citas.ToListAsync());
         }
 
+
         [HttpPost]
         public async Task<ActionResult> Post(Cita cita)
         {
