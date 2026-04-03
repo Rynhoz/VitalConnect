@@ -20,7 +20,7 @@ namespace VitalConnect_API.Data
         public DbSet<Medicamento> Medicamentos { get; set; }
 
         //Para Fichas de atencion
-        public DbSet<FichaAtencion> FichaAtencion { get; set; }
+        public DbSet<FichaAtencion> FichasAtencion { get; set; }
 
         //Para Citas
         public DbSet<Cita> Citas { get; set; }
