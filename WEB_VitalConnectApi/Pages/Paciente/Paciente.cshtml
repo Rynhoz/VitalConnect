@@ -1,10 +1,103 @@
-﻿@page
-@model IndexModel
+﻿@page "{id:int}"
+@model WEB_VitalConnectApi.Pages.Paciente.PacienteModel
 @{
     ViewData["Title"] = "Paciente";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container py-4">
+    <div class="card shadow-sm border-0 rounded-4 mb-4">
+        <div class="card-body p-4">
+            <div class="d-flex align-items-center gap-3">
+                <div class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center"
+                     style="width: 72px; height: 72px; font-size: 28px; font-weight: bold;">
+                    @(string.IsNullOrWhiteSpace(Model.Paciente.NombreCompleto)
+                                        ? "P"
+                                        : Model.Paciente.NombreCompleto.Substring(0, 1).ToUpper())
+                </div>
+
+                <div>
+                    <h2 class="mb-1">@Model.Paciente.NombreCompleto</h2>
+                    <p class="text-muted mb-1">CI: @Model.Paciente.CI</p>
+                    <p class="text-muted mb-0">Teléfono: @Model.Paciente.Telefono</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion" id="pacienteAccordion">
+
+        <div class="accordion-item rounded-4 mb-3 border-0 shadow-sm">
+            <h2 class="accordion-header">
+                <button class="accordion-button rounded-top-4" type="button" data-bs-toggle="collapse" data-bs-target="#datosPaciente">
+                    Mis datos
+                </button>
+            </h2>
+            <div id="datosPaciente" class="accordion-collapse collapse show" data-bs-parent="#pacienteAccordion">
+                <div class="accordion-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-2"><strong>Nombre:</strong> @Model.Paciente.NombreCompleto</div>
+                        <div class="col-md-6 mb-2"><strong>CI:</strong> @Model.Paciente.CI</div>
+                        <div class="col-md-6 mb-2"><strong>Teléfono:</strong> @Model.Paciente.Telefono</div>
+                        <div class="col-md-6 mb-2"><strong>Dirección:</strong> @Model.Paciente.Direccion</div>
+                        <div class="col-md-6 mb-2"><strong>Género:</strong> @Model.Paciente.Genero</div>
+                        <div class="col-md-6 mb-2"><strong>Fecha de nacimiento:</strong> @Model.Paciente.FechaNacimiento.ToString("dd/MM/yyyy")</div>
+                        <div class="col-12 mb-2"><strong>Alergias o antecedentes:</strong> @Model.Paciente.AlergiasAntecedentes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item rounded-4 mb-3 border-0 shadow-sm">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed rounded-top-4" type="button" data-bs-toggle="collapse" data-bs-target="#proximaCita">
+                    Próxima cita
+                </button>
+            </h2>
+            <div id="proximaCita" class="accordion-collapse collapse" data-bs-parent="#pacienteAccordion">
+                <div class="accordion-body">
+                    @if (Model.ProximaCita != null)
+                    {
+                        <div class="row">
+                            <div class="col-md-4 mb-2"><strong>Fecha:</strong> @Model.ProximaCita.Fecha.ToString("dd/MM/yyyy")</div>
+                            <div class="col-md-4 mb-2"><strong>Hora:</strong> @Model.ProximaCita.Hora</div>
+                            <div class="col-md-4 mb-2"><strong>Estado:</strong> @Model.ProximaCita.EstadoCita</div>
+                            <div class="col-md-6 mb-2"><strong>Profesional:</strong> @Model.ProximaCita.NombreProfesional</div>
+                            <div class="col-md-6 mb-2"><strong>Especialidad:</strong> @Model.ProximaCita.Especialidad</div>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted mb-0">No tienes una próxima cita registrada.</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item rounded-4 border-0 shadow-sm">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed rounded-top-4" type="button" data-bs-toggle="collapse" data-bs-target="#accionesRapidas">
+                    Accesos rápidos
+                </button>
+            </h2>
+            <div id="accionesRapidas" class="accordion-collapse collapse" data-bs-parent="#pacienteAccordion">
+                <div class="accordion-body">
+                    <div class="d-flex flex-wrap gap-2">
+                        <a asp-page="/Paciente/Editar" asp-route-id="@Model.Paciente.IdUsuario" class="btn btn-outline-primary">
+                            Editar datos
+                        </a>
+                        <a asp-page="/Paciente/ReservarCita" asp-route-id="@Model.Paciente.IdUsuario" class="btn btn-outline-success">
+                            Reservar cita
+                        </a>
+                        <a asp-page="/Paciente/Historial" asp-route-id="@Model.Paciente.IdUsuario" class="btn btn-outline-secondary">
+                            Ver historial
+                        </a>
+                        <a asp-page="/Paciente/Recetas" asp-route-id="@Model.Paciente.IdUsuario" class="btn btn-outline-dark">
+                            Ver recetas
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
