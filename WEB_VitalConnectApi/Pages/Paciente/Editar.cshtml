@@ -1,10 +1,74 @@
-﻿@page
-@model IndexModel
+﻿@page "{id:int}"
+@model WEB_VitalConnectApi.Pages.Paciente.EditarModel
 @{
     ViewData["Title"] = "Editar Paciente";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container py-4">
+    <div class="card shadow-sm border-0 rounded-4 mx-auto" style="max-width: 850px;">
+        <div class="card-body p-4">
+            <h2 class="mb-4">Editar datos del paciente</h2>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Mensaje))
+            {
+                <div class="alert alert-info">@Model.Mensaje</div>
+            }
+
+            <form method="post">
+                <input type="hidden" asp-for="Paciente.IdUsuario" />
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Paciente.NombreCompleto" class="form-label"></label>
+                        <input asp-for="Paciente.NombreCompleto" class="form-control" />
+                        <span asp-validation-for="Paciente.NombreCompleto" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Paciente.CI" class="form-label"></label>
+                        <input asp-for="Paciente.CI" class="form-control" readonly />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Paciente.Telefono" class="form-label"></label>
+                        <input asp-for="Paciente.Telefono" class="form-control" />
+                        <span asp-validation-for="Paciente.Telefono" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Paciente.FechaNacimiento" class="form-label"></label>
+                        <input asp-for="Paciente.FechaNacimiento" type="date" class="form-control" />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Paciente.Genero" class="form-label"></label>
+                        <select asp-for="Paciente.Genero" class="form-select">
+                            <option>Femenino</option>
+                            <option>Masculino</option>
+                            <option>Otro</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Paciente.Direccion" class="form-label"></label>
+                        <input asp-for="Paciente.Direccion" class="form-control" />
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <label asp-for="Paciente.AlergiasAntecedentes" class="form-label"></label>
+                        <textarea asp-for="Paciente.AlergiasAntecedentes" class="form-control" rows="4"></textarea>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                    <a asp-page="/Paciente/Paciente" asp-route-id="@Model.Paciente.IdUsuario" class="btn btn-outline-secondary">Volver</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
