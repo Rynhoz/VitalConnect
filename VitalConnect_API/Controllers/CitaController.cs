@@ -64,11 +64,15 @@ namespace VitalConnect_API.Controllers
             if (!profesionalExiste)
                 return BadRequest("El profesional no existe.");
 
-            var asistenteExiste = await _context.Asistentes
-                .AnyAsync(x => x.ID == cita.IdAsistente);
 
-            if (!asistenteExiste)
-                return BadRequest("El asistente no existe.");
+            if (cita.IdAsistente.HasValue)
+            {
+                var asistenteExiste = await _context.Asistentes
+                    .AnyAsync(x => x.ID == cita.IdAsistente.Value);
+
+                if (!asistenteExiste)
+                    return BadRequest("El asistente no existe.");
+            }
 
             var citaDuplicada = await _context.Citas.AnyAsync(x =>
                 x.Fecha == cita.Fecha &&
