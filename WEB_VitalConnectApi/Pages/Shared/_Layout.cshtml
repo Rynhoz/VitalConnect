@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body class="d-flex flex-column min-vh-100 bg-light">
-
     <header class="sticky-top mt-3">
         <div class="container">
             <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm rounded-4 border px-3">
@@ -27,11 +26,44 @@
                             <li class="nav-item">
                                 <a class="nav-link fw-medium" asp-page="/Index">Dashboard</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link fw-medium" asp-page="/Paciente/Index">Patients</a>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle fw-medium" href="#" role="button" data-bs-toggle="dropdown">
+                                    Pacientes
+                                </a>
+                                <ul class="dropdown-menu shadow border-0 rounded-3 mt-2">
+                                    <li><a class="dropdown-item" asp-page="/Paciente/Paciente">Lista / Perfil</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Paciente/RegistroPaciente">Nuevo Registro</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Paciente/ReservarCita">Reservar Cita</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-page="/Paciente/Historial">Historial Clínico</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Paciente/Recetas">Recetas</a></li>
+                                </ul>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link fw-medium" asp-page="/Citas/Index">Schedules</a>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle fw-medium" href="#" role="button" data-bs-toggle="dropdown">
+                                    Profesional
+                                </a>
+                                <ul class="dropdown-menu shadow border-0 rounded-3 mt-2">
+                                    <li><a class="dropdown-item" asp-page="/Profesional/Profesional">Mi Perfil</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Profesional/Atenciones/Atencion">Atenciones</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Profesional/Atenciones/CrearReceta">Crear Receta</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-page="/Profesional/Medicamento/Medicamento">Inventario Medicamentos</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle fw-medium" href="#" role="button" data-bs-toggle="dropdown">
+                                    Gestión
+                                </a>
+                                <ul class="dropdown-menu shadow border-0 rounded-3 mt-2">
+                                    <li><a class="dropdown-item" asp-page="/Profesional/Citas/Agenda">Agenda Diaria</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Profesional/Citas/Gestion">Gestión de Citas</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-page="/Profesional/Asistente/Asistente">Asistentes</a></li>
+                                </ul>
                             </li>
                         </ul>
 
@@ -40,7 +72,7 @@
                                 <span class="input-group-text bg-body border-0 rounded-start-pill ps-3">
                                     <i class="bi bi-search text-muted"></i>
                                 </span>
-                                <input type="text" class="form-control bg-body border-0 rounded-end-pill py-2" style="width: 200px;" placeholder="Search patients...">
+                                <input type="text" class="form-control bg-body border-0 rounded-end-pill py-2" style="width: 150px;" placeholder="Buscar...">
                             </div>
                         </div>
 
@@ -55,7 +87,7 @@
                                     <img src="https://ui-avatars.com/api/?name=Zenon&background=0dcaf0&color=fff" width="35" height="35" class="rounded-circle border">
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 rounded-3">
-                                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Profesional/Registro">Configuración</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item text-danger" href="#">Logout</a></li>
                                 </ul>
