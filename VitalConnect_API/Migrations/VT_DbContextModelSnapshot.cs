@@ -118,6 +118,9 @@ namespace VitalConnect_API.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("Estado")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("FechaAtencion")
                         .HasColumnType("TEXT");
 
@@ -161,6 +164,9 @@ namespace VitalConnect_API.Migrations
                 {
                     b.Property<int>("RecetaId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Estado")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("FichaAtencionId")

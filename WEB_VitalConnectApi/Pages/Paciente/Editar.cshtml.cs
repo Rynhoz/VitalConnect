@@ -1,20 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WEB_VitalConnectApi.Pages
 {
-    public class PrivacyModel : PageModel
+    public class EditarModel : PageModel
     {
-        private readonly ILogger<PrivacyModel> _logger;
+        private readonly ILogger<IndexModel> _logger;
 
-        public PrivacyModel(ILogger<PrivacyModel> logger)
+        public EditarModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
         }
 
         public void OnGet()
         {
+
         }
     }
-
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace VitalConnect_API.Migrations
 {
     /// <inheritdoc />
-    public partial class vtcproyecto : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -151,6 +151,7 @@ namespace VitalConnect_API.Migrations
                     FechaAtencion = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Diagnostico = table.Column<string>(type: "TEXT", nullable: false),
                     Indicaciones = table.Column<string>(type: "TEXT", nullable: false),
+                    Estado = table.Column<bool>(type: "INTEGER", nullable: false),
                     IdCita = table.Column<int>(type: "INTEGER", nullable: false),
                     CitaId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
@@ -172,6 +173,7 @@ namespace VitalConnect_API.Migrations
                     RecetaId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Observaciones = table.Column<string>(type: "TEXT", nullable: true),
+                    Estado = table.Column<bool>(type: "INTEGER", nullable: false),
                     IdFicha = table.Column<int>(type: "INTEGER", nullable: false),
                     FichaAtencionId = table.Column<int>(type: "INTEGER", nullable: false)
                 },

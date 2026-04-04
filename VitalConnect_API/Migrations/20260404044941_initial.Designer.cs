@@ -11,8 +11,8 @@ using VitalConnect_API.Data;
 namespace VitalConnect_API.Migrations
 {
     [DbContext(typeof(VT_DbContext))]
-    [Migration("20260403023745_vtcproyecto")]
-    partial class vtcproyecto
+    [Migration("20260404044941_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -121,6 +121,9 @@ namespace VitalConnect_API.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("Estado")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("FechaAtencion")
                         .HasColumnType("TEXT");
 
@@ -164,6 +167,9 @@ namespace VitalConnect_API.Migrations
                 {
                     b.Property<int>("RecetaId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Estado")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("FichaAtencionId")
