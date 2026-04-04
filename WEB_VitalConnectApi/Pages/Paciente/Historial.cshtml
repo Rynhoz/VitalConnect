@@ -1,15 +1,30 @@
 ﻿@page
 @model WEB_VitalConnectApi.Pages.HistorialModel
+@{
+    ViewData["Title"] = "Historial Clínico";
+}
 
 <div class="container mt-4">
-    <h2>Historial Clínico</h2>
+    <div class="card shadow rounded-4 p-4">
+        <h2 class="mb-4">Historial de Consultas</h2>
 
-    <div class="list-group">
-        @foreach (var item in Model.Consultas)
+        @if (Model.Consultas != null && Model.Consultas.Any())
         {
-            <div class="list-group-item">
-                <h5>@item.FechaConsulta.ToString("dd/MM/yyyy")</h5>
-                <p>@item.Diagnostico</p>
+            <div class="list-group">
+                @foreach (var consulta in Model.Consultas)
+                {
+                    <div class="list-group-item mb-3 rounded-3">
+                        <h5>@consulta.Fecha.ToString("dd/MM/yyyy")</h5>
+                        <p><strong>Diagnóstico:</strong> @consulta.Diagnostico</p>
+                        <p><strong>Observaciones:</strong> @consulta.Observaciones</p>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">
+                No hay consultas registradas.
             </div>
         }
     </div>

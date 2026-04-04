@@ -1,27 +1,35 @@
-﻿@page "/Paciente/Registro"
-@model WEB_VitalConnectApi.Pages.RegistroPacienteModel
+﻿@page
+@model WEB_VitalConnectApi.Pages.PacienteModel
+@{
+    ViewData["Title"] = "Inicio Paciente";
+}
 
 <div class="container mt-4">
     <div class="card shadow rounded-4 p-4">
-        <h2>Registro de Paciente</h2>
+        <h2 class="mb-4">Perfil del Paciente</h2>
 
-        <form method="post">
-            <div class="mb-3">
-                <label>Nombre Completo</label>
-                <input asp-for="Formulario.NombreCompleto" class="form-control" />
+        <div class="accordion" id="accordionPaciente">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#datosPaciente">
+                        Ver Datos del Paciente
+                    </button>
+                </h2>
+
+                <div id="datosPaciente" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
+                        <p><strong>Nombre:</strong> @Model.NombreCompleto</p>
+                        <p><strong>CI:</strong> @Model.CI</p>
+                        <p><strong>Teléfono:</strong> @Model.Telefono</p>
+                        <p><strong>Género:</strong> @Model.Genero</p>
+                        <p><strong>Dirección:</strong> @Model.Direccion</p>
+                        <p><strong>Fecha Nacimiento:</strong> @Model.FechaNacimiento</p>
+                        <p><strong>Siguiente cita:</strong> Pendiente</p>
+                    </div>
+                </div>
             </div>
-
-            <div class="mb-3">
-                <label>CI</label>
-                <input asp-for="Formulario.CI" class="form-control" />
-            </div>
-
-            <div class="mb-3">
-                <label>Alergias / Antecedentes</label>
-                <textarea asp-for="Formulario.AlergiasAntecedentes" class="form-control"></textarea>
-            </div>
-
-            <button class="btn btn-primary">Guardar</button>
-        </form>
+        </div>
     </div>
 </div>

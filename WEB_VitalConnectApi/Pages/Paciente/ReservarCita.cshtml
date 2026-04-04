@@ -8,34 +8,25 @@
         <form method="post">
             <div class="mb-3">
                 <label>Especialidad</label>
-                <select asp-for="NuevaCita.Especialidad" class="form-select">
-                    <option>Cardiología</option>
-                    <option>Pediatría</option>
-                    <option>Odontología</option>
-                </select>
+                <input asp-for="Especialidad" class="form-control" />
             </div>
 
             <div class="mb-3">
                 <label>Médico</label>
-                <select asp-for="NuevaCita.IdProfesional" class="form-select">
-                    @foreach (var medico in Model.Profesionales)
-                    {
-                        <option value="@medico.ID">@medico.NombreCompleto</option>
-                    }
-                </select>
+                <input asp-for="Medico" class="form-control" />
             </div>
 
             <div class="mb-3">
                 <label>Fecha</label>
-                <input type="date" asp-for="NuevaCita.Fecha" class="form-control" />
+                <input asp-for="Fecha" type="date" class="form-control" />
             </div>
 
             <div class="mb-3">
                 <label>Hora</label>
-                <input type="time" asp-for="NuevaCita.Hora" class="form-control" />
+                <input asp-for="Hora" type="time" class="form-control" />
             </div>
 
-            <button class="btn btn-success">Reservar</button>
+            <button class="btn btn-success w-100">Reservar</button>
         </form>
     </div>
 </div>

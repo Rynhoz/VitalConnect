@@ -1,31 +1,38 @@
-using Microsoft.Win32;
-using System.Reflection.Emit;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
-@page "/Paciente/Registro"
-@model WEB_VitalConnectApi.Pages.RegistroPacienteModel
+namespace WEB_VitalConnectApi.Pages
+{
+    public class RegistroPacienteModel : PageModel
+    {
+        [BindProperty]
+        public string NombreCompleto { get; set; }
 
-<div class= "container mt-4" >
-    < div class= "card shadow rounded-4 p-4" >
-        < h2 > Registro de Paciente</h2>
+        [BindProperty]
+        public string CI { get; set; }
 
-        <form method = "post" >
-            < div class= "mb-3" >
-                < label > Nombre Completo </ label >
-                < input asp -for= "Formulario.NombreCompleto" class= "form-control" />
-            </ div >
+        [BindProperty]
+        public string Telefono { get; set; }
 
-            < div class= "mb-3" >
-                < label > CI </ label >
-                < input asp -for= "Formulario.CI" class= "form-control" />
-            </ div >
+        [BindProperty]
+        public string Genero { get; set; }
 
-            < div class= "mb-3" >
-                < label > Alergias / Antecedentes </ label >
-                < textarea asp -for= "Formulario.AlergiasAntecedentes" class= "form-control" ></ textarea >
-            </ div >
+        [BindProperty]
+        public string Direccion { get; set; }
 
-            < button class= "btn btn-primary" > Guardar </ button >
-        </ form >
-    </ div >
-</ div >
+        [BindProperty]
+        public DateTime FechaNacimiento { get; set; }
+
+        public IActionResult OnPost()
+        {
+            TempData["NombreCompleto"] = NombreCompleto;
+            TempData["CI"] = CI;
+            TempData["Telefono"] = Telefono;
+            TempData["Genero"] = Genero;
+            TempData["Direccion"] = Direccion;
+            TempData["FechaNacimiento"] = FechaNacimiento.ToShortDateString();
+
+            return RedirectToPage("/Paciente/Paciente");
+        }
+    }
+}

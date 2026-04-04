@@ -1,22 +1,48 @@
 ﻿@page
 @model WEB_VitalConnectApi.Pages.EditarModel
+@{
+    ViewData["Title"] = "Editar Paciente";
+}
 
 <div class="container mt-4">
     <div class="card shadow rounded-4 p-4">
         <h2>Editar Datos</h2>
 
         <form method="post">
+
+            <div class="mb-3">
+                <label>Nombre Completo</label>
+                <input asp-for="NombreCompleto" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label>CI</label>
+                <input asp-for="CI" class="form-control" />
+            </div>
+
             <div class="mb-3">
                 <label>Teléfono</label>
-                <input asp-for="Formulario.Telefono" class="form-control" />
+                <input asp-for="Telefono" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label>Género</label>
+                <input asp-for="Genero" class="form-control" />
             </div>
 
             <div class="mb-3">
                 <label>Dirección</label>
-                <input asp-for="Formulario.Direccion" class="form-control" />
+                <input asp-for="Direccion" class="form-control" />
             </div>
 
-            <button class="btn btn-warning">Actualizar</button>
+            <div class="mb-3">
+                <label>Fecha Nacimiento</label>
+                <input asp-for="FechaNacimiento" type="date" class="form-control" />
+            </div>
+
+            <button class="btn btn-warning w-100">
+                Guardar Cambios
+            </button>
         </form>
     </div>
 </div>

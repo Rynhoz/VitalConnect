@@ -8,7 +8,7 @@ namespace VitalConnect_API.Models
         public string Genero { get; set; } = string.Empty;
         public string Direccion { get; set; } = string.Empty;
 
-        public string AlergiasAntecedentes { get; set; } = string.Empty;
+        
 
         [JsonIgnore]
         public List<Cita> Citas { get; set; } = new ();

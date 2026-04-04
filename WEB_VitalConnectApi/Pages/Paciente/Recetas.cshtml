@@ -1,25 +1,46 @@
 ﻿@page
 @model WEB_VitalConnectApi.Pages.RecetasModel
+@{
+    ViewData["Title"] = "Recetas Médicas";
+}
 
 <div class="container mt-4">
-    <h2>Recetas Médicas</h2>
+    <div class="card shadow rounded-4 p-4">
+        <h2 class="mb-4">Recetas Médicas</h2>
 
-    <div class="accordion" id="recetasAccordion">
-        @foreach (var receta in Model.RecetasPaciente)
+        @if (Model.Recetas != null && Model.Recetas.Any())
         {
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button" data-bs-toggle="collapse">
-                        @receta.NombreMedicamento
-                    </button>
-                </h2>
+            <div class="accordion" id="accordionRecetas">
+                @for (int i = 0; i < Model.Recetas.Count; i++)
+                {
+                    var receta = Model.Recetas[i];
 
-                <div class="accordion-collapse collapse show">
-                    <div class="accordion-body">
-                        <p><strong>Dosis:</strong> @receta.Dosis</p>
-                        <p><strong>Duración:</strong> @receta.Dias dias</p>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button @(i > 0 ? "collapsed" : "")"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#receta-@i">
+                                @receta.Medicamento
+                            </button>
+                        </h2>
+
+                        <div id="receta-@i"
+                             class="accordion-collapse collapse @(i == 0 ? "show" : "")">
+                            <div class="accordion-body">
+                                <p><strong>Dosis:</strong> @receta.Dosis</p>
+                                <p><strong>Frecuencia:</strong> @receta.Frecuencia</p>
+                                <p><strong>Días:</strong> @receta.Dias</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">
+                No hay recetas disponibles.
             </div>
         }
     </div>

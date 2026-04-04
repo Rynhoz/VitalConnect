@@ -1,52 +1,52 @@
-﻿@page "/Paciente/Index"
-@model WEB_VitalConnectApi.Pages.Paciente.PacienteModel
+﻿@page
+@model WEB_VitalConnectApi.Pages.RegistroPacienteModel
 @{
-    ViewData["Title"] = "Inicio Paciente";
+    ViewData["Title"] = "Registro Paciente";
 }
 
 <div class="container mt-4">
-    <div class="card shadow-sm">
-        <div class="card-body text-center">
-            <img src="https://via.placeholder.com/120"
-                 class="rounded-circle mb-3"
-                 alt="Paciente">
+    <div class="card shadow rounded-4 p-4">
+        <h2 class="mb-4">Registro de Paciente</h2>
 
-            <h3>@Model.NombrePaciente</h3>
-            <p class="text-muted">Paciente registrado</p>
-        </div>
-    </div>
+        <form method="post">
 
-    <div class="accordion mt-4" id="pacienteAccordion">
-
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#datos">
-                    Mis Datos
-                </button>
-            </h2>
-            <div id="datos" class="accordion-collapse collapse show">
-                <div class="accordion-body">
-                    <p><strong>CI:</strong> @Model.CI</p>
-                    <p><strong>Celular:</strong> @Model.Celular</p>
-                    <p><strong>Dirección:</strong> @Model.Direccion</p>
-                    <p><strong>Alergias:</strong> @Model.Alergias</p>
-                </div>
+            <div class="mb-3">
+                <label>Nombre Completo</label>
+                <input asp-for="NombreCompleto" class="form-control" />
             </div>
-        </div>
 
-        <div class="accordion-item mt-2">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#cita">
-                    Próxima Cita
-                </button>
-            </h2>
-            <div id="cita" class="accordion-collapse collapse">
-                <div class="accordion-body">
-                    <p><strong>Fecha:</strong> @Model.ProximaFecha</p>
-                    <p><strong>Hora:</strong> @Model.ProximaHora</p>
-                    <p><strong>Médico:</strong> @Model.Medico</p>
-                </div>
+            <div class="mb-3">
+                <label>CI</label>
+                <input asp-for="CI" class="form-control" />
             </div>
-        </div>
+
+            <div class="mb-3">
+                <label>Teléfono</label>
+                <input asp-for="Telefono" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label>Género</label>
+                <select asp-for="Genero" class="form-select">
+                    <option value="">Seleccione</option>
+                    <option>Masculino</option>
+                    <option>Femenino</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Dirección</label>
+                <input asp-for="Direccion" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label>Fecha de Nacimiento</label>
+                <input asp-for="FechaNacimiento" type="date" class="form-control" />
+            </div>
+
+            <button class="btn btn-primary w-100">
+                Registrar
+            </button>
+        </form>
     </div>
 </div>
