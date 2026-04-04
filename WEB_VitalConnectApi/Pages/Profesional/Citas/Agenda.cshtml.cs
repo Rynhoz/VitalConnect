@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WEB_VitalConnectApi.Pages
 {
-    public class AtencionModel : PageModel
+    public class AgendaModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
 
-        public AtencionModel(ILogger<IndexModel> logger)
+        public AgendaModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
         }
