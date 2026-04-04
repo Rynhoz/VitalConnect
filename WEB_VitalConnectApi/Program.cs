@@ -8,6 +8,13 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
+// Configurar HttpClient para ApiService
+builder.Services.AddHttpClient<ApiService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:5003/");
+});
+
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
