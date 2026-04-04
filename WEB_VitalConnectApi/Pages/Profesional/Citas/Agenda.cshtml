@@ -1,10 +1,132 @@
 ﻿@page
-@model IndexModel
+@model WEB_VitalConnectApi.Pages.AgendaModel
 @{
-    ViewData["Title"] = "Crear Ficha de Atencion";
+    ViewData["Title"] = "Agenda de Citas";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+    <div class="card shadow rounded-4 p-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+            <div>
+                <h2 class="mb-1">Agenda de Citas</h2>
+                <p class="text-muted mb-0">Consulta rápida de citas registradas</p>
+            </div>
+            <a asp-page="/Profesional/Citas/Gestion" class="btn btn-primary">
+                Ir a Gestión de Citas
+            </a>
+        </div>
+
+        <form method="get" class="row g-3 mb-4">
+            <div class="col-md-4">
+                <label class="form-label">Filtrar por fecha</label>
+                <input asp-for="FiltroFecha" type="date" class="form-control" />
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Filtrar por Id Profesional</label>
+                <input asp-for="FiltroIdProfesional" type="number" class="form-control" min="1" />
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Filtrar por estado de cita</label>
+                <select asp-for="FiltroEstadoCita" class="form-select">
+                    <option value="">Todos</option>
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="Confirmada">Confirmada</option>
+                    <option value="Cancelada">Cancelada</option>
+                </select>
+            </div>
+
+            <div class="col-12 d-flex gap-2">
+                <button type="submit" class="btn btn-success">Buscar</button>
+                <a asp-page="/Profesional/Citas/Agenda" class="btn btn-outline-secondary">Limpiar</a>
+            </div>
+        </form>
+
+        <div class="row g-3 mb-4">
+            <div class="col-md-4">
+                <div class="card border-0 bg-light">
+                    <div class="card-body">
+                        <h6 class="text-muted">Total citas</h6>
+                        <h3 class="mb-0">@Model.TotalCitas</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card border-0 bg-light">
+                    <div class="card-body">
+                        <h6 class="text-muted">Citas activas</h6>
+                        <h3 class="mb-0">@Model.TotalActivas</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card border-0 bg-light">
+                    <div class="card-body">
+                        <h6 class="text-muted">Pendientes</h6>
+                        <h3 class="mb-0">@Model.TotalPendientes</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.Mensaje))
+        {
+            <div class="alert alert-warning">
+                @Model.Mensaje
+            </div>
+        }
+
+        @if (Model.Citas != null && Model.Citas.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Estado Cita</th>
+                            <th>Activo</th>
+                            <th>Paciente</th>
+                            <th>Profesional</th>
+                            <th>Asistente</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var cita in Model.Citas)
+                        {
+                            <tr>
+                                <td>@cita.CitaId</td>
+                                <td>@cita.Fecha.ToString("dd/MM/yyyy")</td>
+                                <td>@cita.Hora</td>
+                                <td>@cita.EstadoCita</td>
+                                <td>
+                                    @if (cita.Estado)
+                                    {
+                                        <span class="badge bg-success">Activo</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">Inactivo</span>
+                                    }
+                                </td>
+                                <td>@cita.IdPaciente</td>
+                                <td>@cita.IdProfesional</td>
+                                <td>@(cita.IdAsistente.HasValue? cita.IdAsistente.ToString() : "Sin asignar")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info mb-0">
+                No se encontraron citas con los filtros aplicados.
+            </div>
+        }
+    </div>
 </div>
