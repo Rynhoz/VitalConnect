@@ -1,10 +1,16 @@
 ﻿@page
-@model IndexModel
-@{
-    ViewData["Title"] = "Historial Clinico";
-}
+@model WEB_VitalConnectApi.Pages.HistorialModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+    <h2>Historial Clínico</h2>
+
+    <div class="list-group">
+        @foreach (var item in Model.Consultas)
+        {
+            <div class="list-group-item">
+                <h5>@item.FechaConsulta.ToString("dd/MM/yyyy")</h5>
+                <p>@item.Diagnostico</p>
+            </div>
+        }
+    </div>
 </div>

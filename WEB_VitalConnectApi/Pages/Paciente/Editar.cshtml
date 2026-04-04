@@ -1,1 +1,22 @@
-﻿
+﻿@page
+@model WEB_VitalConnectApi.Pages.EditarModel
+
+<div class="container mt-4">
+    <div class="card shadow rounded-4 p-4">
+        <h2>Editar Datos</h2>
+
+        <form method="post">
+            <div class="mb-3">
+                <label>Teléfono</label>
+                <input asp-for="Formulario.Telefono" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label>Dirección</label>
+                <input asp-for="Formulario.Direccion" class="form-control" />
+            </div>
+
+            <button class="btn btn-warning">Actualizar</button>
+        </form>
+    </div>
+</div>
