@@ -147,7 +147,7 @@ namespace VitalConnect_API.Controllers
             return Ok("Se cambio el estado de la cita correctamente");
         }
 
-        // Obtener citas por estado (pendiente, confirmada, cancelada)
+        // Obtener citas por estado (pendiente, atendido, cancelada)
         [HttpGet("estado-cita/{estado}")]
         public async Task<IActionResult> GetCitasPorEstado(string estado)
         {
