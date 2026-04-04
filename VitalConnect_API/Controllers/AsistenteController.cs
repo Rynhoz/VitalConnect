@@ -49,6 +49,7 @@ namespace VitalConnect_API.Controllers
             if (string.IsNullOrWhiteSpace(asistente.Turno)) return BadRequest("Debe Ingresar el Turno correctamente");
 
             asistente.Rol = "Asistente";
+            asistente.Estado = true;
             _context.Asistentes.Add(asistente);
             await _context.SaveChangesAsync();
 
