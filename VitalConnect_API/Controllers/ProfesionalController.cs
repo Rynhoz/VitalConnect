@@ -111,7 +111,7 @@ namespace VitalConnect_API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProfesional(int id)
         {
-            var profesional = await _context.Profesionales.;
+            var profesional = await _context.Profesionales.FindAsync(id);
             if (profesional == null)
             {
                 return NotFound("El profesional no fue encontrado");
