@@ -18,6 +18,7 @@ namespace VitalConnect_API.Controllers
         }
 
         [HttpGet]
+
         public async Task<IActionResult> GetPacientes()
         {
             var pacientes = await _context.Pacientes.ToListAsync();
@@ -27,8 +28,7 @@ namespace VitalConnect_API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Paciente>> GetPaciente(int id)
         {
-            var paciente = await _context.Pacientes
-                .Include(p => p.Citas)
+            var paciente = await _context.Pacientes.Include(p => p.Citas)
                 .FirstOrDefaultAsync(p => p.ID == id);
 
             if (paciente is null)
@@ -38,6 +38,7 @@ namespace VitalConnect_API.Controllers
 
             return Ok(paciente);
         }
+
 
         [HttpPost]
         public async Task<ActionResult<Paciente>> CreatePaciente(Paciente paciente)
@@ -67,11 +68,6 @@ namespace VitalConnect_API.Controllers
                 return BadRequest("La dirección es obligatoria");
             }
 
-            if (string.IsNullOrWhiteSpace(paciente.AlergiasAntecedentes))
-            {
-                return BadRequest("Las alergias o antecedentes son obligatorios");
-            }
-
             if (paciente.FechaNacimiento == default)
             {
                 return BadRequest("La fecha de nacimiento es obligatoria");
@@ -89,16 +85,16 @@ namespace VitalConnect_API.Controllers
                 return BadRequest("El CI ya está registrado");
             }
 
-            // Solo deja esta línea si la propiedad Rol existe en tu modelo
-            // paciente.Rol = "Paciente";
-
+            paciente.Rol = "Paciente";
             paciente.Estado = true;
 
             _context.Pacientes.Add(paciente);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetPaciente), new { id = paciente.ID }, paciente);
+
         }
+
 
         [HttpPut("{id}")]
         public async Task<ActionResult<Paciente>> UpdatePaciente(int id, Paciente paciente)
@@ -135,11 +131,6 @@ namespace VitalConnect_API.Controllers
                 return BadRequest("La dirección es obligatoria");
             }
 
-            if (string.IsNullOrWhiteSpace(paciente.AlergiasAntecedentes))
-            {
-                return BadRequest("Las alergias o antecedentes son obligatorios");
-            }
-
             if (paciente.FechaNacimiento == default)
             {
                 return BadRequest("La fecha de nacimiento es obligatoria");
@@ -163,7 +154,6 @@ namespace VitalConnect_API.Controllers
             pacienteObj.Genero = paciente.Genero;
             pacienteObj.Direccion = paciente.Direccion;
             pacienteObj.FechaNacimiento = paciente.FechaNacimiento;
-            pacienteObj.AlergiasAntecedentes = paciente.AlergiasAntecedentes;
             pacienteObj.Estado = paciente.Estado;
 
             await _context.SaveChangesAsync();
@@ -175,22 +165,17 @@ namespace VitalConnect_API.Controllers
         public async Task<IActionResult> DeletePaciente(int id)
         {
             var paciente = await _context.Pacientes.FirstOrDefaultAsync(p => p.ID == id);
-
             if (paciente is null)
             {
                 return NotFound("El paciente no fue encontrado");
             }
-
             var citasPaciente = await _context.Citas.AnyAsync(c => c.IdPaciente == id);
-
             if (citasPaciente)
             {
                 return BadRequest("No se puede eliminar un paciente con citas registradas");
             }
-
             _context.Pacientes.Remove(paciente);
             await _context.SaveChangesAsync();
-
             return NoContent();
         }
 
@@ -204,9 +189,9 @@ namespace VitalConnect_API.Controllers
                 return NotFound("El paciente no fue encontrado");
             }
 
-            var tieneCitas = await _context.Citas.AnyAsync(c => c.IdPaciente == id && c.Estado);
+            var TieneCitas = await _context.Citas.AnyAsync(c => c.IdPaciente == id && c.Estado);
 
-            if (tieneCitas && paciente.Estado)
+            if (TieneCitas && paciente.Estado)
             {
                 return BadRequest("No se puede desactivar un paciente con citas activas");
             }
@@ -215,8 +200,9 @@ namespace VitalConnect_API.Controllers
 
             await _context.SaveChangesAsync();
 
-            return Ok("Se cambió el estado del paciente correctamente");
+            return Ok("Se cambio el estado del paciente correctamente");
         }
+
 
         [HttpGet("buscar/ci/{ci}")]
         public async Task<IActionResult> BuscarPorCI(string ci)
@@ -236,5 +222,9 @@ namespace VitalConnect_API.Controllers
 
             return Ok(paciente);
         }
+
+
+
+
     }
 }
