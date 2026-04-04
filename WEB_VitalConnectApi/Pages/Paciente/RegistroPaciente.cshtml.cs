@@ -25,7 +25,8 @@ namespace WEB_VitalConnectApi.Pages.Paciente
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid) return Page();
+            if (!ModelState.IsValid)
+                return Page();
 
             Paciente.Estado = true;
 
@@ -37,35 +38,33 @@ namespace WEB_VitalConnectApi.Pages.Paciente
                 return Page();
             }
 
-            Mensaje = "Paciente registrado correctamente.";
-            ModelState.Clear();
-            Paciente = new PacienteInputModel();
-            return Page();
+            TempData["MensajeExito"] = "Paciente registrado correctamente.";
+            return RedirectToPage("/Paciente/RegistroPaciente");
         }
 
         public class PacienteInputModel
         {
-            [Required]
+            [Required(ErrorMessage = "El nombre completo es obligatorio.")]
             [Display(Name = "Nombre completo")]
             public string NombreCompleto { get; set; } = string.Empty;
 
-            [Required]
+            [Required(ErrorMessage = "El CI es obligatorio.")]
             [Display(Name = "CI")]
             public string CI { get; set; } = string.Empty;
 
-            [Required]
+            [Required(ErrorMessage = "El teléfono es obligatorio.")]
             [Display(Name = "Teléfono")]
             public string Telefono { get; set; } = string.Empty;
 
-            [Required]
+            [Required(ErrorMessage = "La fecha de nacimiento es obligatoria.")]
             [Display(Name = "Fecha de nacimiento")]
             public DateTime FechaNacimiento { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "El género es obligatorio.")]
             [Display(Name = "Género")]
             public string Genero { get; set; } = string.Empty;
 
-            [Required]
+            [Required(ErrorMessage = "La dirección es obligatoria.")]
             [Display(Name = "Dirección")]
             public string Direccion { get; set; } = string.Empty;
 
