@@ -108,6 +108,18 @@ namespace VitalConnect_API.Controllers
             return Ok(Objprofesional);
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProfesional(int id)
+        {
+            var profesional = await _context.Profesionales.;
+            if (profesional == null)
+            {
+                return NotFound("El profesional no fue encontrado");
+            }
+            _context.Profesionales.Remove(profesional);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
 
         [HttpPatch("{id}/cambiar-estado")]
         public async Task<IActionResult> CambiarEstadoProfesional(int id)
@@ -123,8 +135,10 @@ namespace VitalConnect_API.Controllers
 
             await _context.SaveChangesAsync();
 
-            return Ok(profesional);
+            return Ok("Se cambio el estado del profesional correctamente");
         }
+
+
 
         [HttpGet("especialidad")]
         public async Task<ActionResult<List<Profesional>>> GetPorEspecialidad(string especialidad)

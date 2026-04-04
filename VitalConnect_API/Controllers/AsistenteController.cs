@@ -116,6 +116,29 @@ namespace VitalConnect_API.Controllers
             return Ok(new { id = asistente.ID, estado = asistente.Estado });
         }
 
+        // Obtener asistentes por turno
+        [HttpGet("turno/{turno}")]
+        public async Task<IActionResult> GetAsistentesPorTurno(string turno)
+        {
+            if (string.IsNullOrWhiteSpace(turno))
+            {
+                return BadRequest("El turno es obligatorio");
+            }
+
+            var asistentes = await _context.Asistentes
+                .Where(a => a.Turno.ToLower() == turno.ToLower() && a.Estado)
+                .ToListAsync();
+
+            if (!asistentes.Any())
+            {
+                return NotFound("No hay asistentes en ese turno");
+            }
+
+            return Ok(asistentes);
+        }
+
+
+
 
     }
 }

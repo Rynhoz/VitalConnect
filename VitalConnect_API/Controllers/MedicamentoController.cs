@@ -81,6 +81,20 @@ namespace VitalConnect_API.Controllers
             return Ok(medicamentoObj);
         }
 
+        [HttpDelete("{id}")]
+
+        public async Task<IActionResult> DeleteMedicamento(int id)
+        {
+            var medicamento = await _context.Medicamentos.FirstOrDefaultAsync(m => m.MedicamentoId == id);
+            if (medicamento == null)
+            {
+                return NotFound("El medicamento no fue encontrado");
+            }
+            _context.Medicamentos.Remove(medicamento);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
         [HttpPatch("{id}/cambiar-estado")]
 
         public async Task<IActionResult> CambiarEstadoMedicamento(int id)
@@ -95,7 +109,7 @@ namespace VitalConnect_API.Controllers
             medicamento.Estado = !medicamento.Estado; 
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok("Se cambio el estado de medicamento correctamente");
         }
 
         [HttpGet("buscar/{nombre}")]

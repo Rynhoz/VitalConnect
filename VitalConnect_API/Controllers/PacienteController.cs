@@ -161,6 +161,24 @@ namespace VitalConnect_API.Controllers
             return Ok(pacienteObj);
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePaciente(int id)
+        {
+            var paciente = await _context.Pacientes.FirstOrDefaultAsync(p => p.ID == id);
+            if (paciente is null)
+            {
+                return NotFound("El paciente no fue encontrado");
+            }
+            var citasPaciente = await _context.Citas.AnyAsync(c => c.IdPaciente == id);
+            if (citasPaciente)
+            {
+                return BadRequest("No se puede eliminar un paciente con citas registradas");
+            }
+            _context.Pacientes.Remove(paciente);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
         [HttpPatch("{id}/cambiar-estado")]
         public async Task<IActionResult> CambiarEstadoPaciente(int id)
         {
@@ -182,33 +200,30 @@ namespace VitalConnect_API.Controllers
 
             await _context.SaveChangesAsync();
 
+            return Ok("Se cambio el estado del paciente correctamente");
+        }
+
+
+        [HttpGet("buscar/ci/{ci}")]
+        public async Task<IActionResult> BuscarPorCI(string ci)
+        {
+            if (string.IsNullOrWhiteSpace(ci))
+            {
+                return BadRequest("El CI es obligatorio");
+            }
+
+            var paciente = await _context.Pacientes
+                .FirstOrDefaultAsync(p => p.CI == ci && p.Estado);
+
+            if (paciente == null)
+            {
+                return NotFound("Paciente no encontrado");
+            }
+
             return Ok(paciente);
         }
 
-        [HttpGet("buscar")]
-        public async Task<ActionResult<List<Paciente>>> BuscarPacientes(string? nombre, string? ci)
-        {
-            var paciente = _context.Pacientes.Where(p => p.Estado).AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(nombre))
-            {
-                paciente = paciente.Where(p => p.NombreCompleto.Contains(nombre));
-            }
-
-            if (!string.IsNullOrWhiteSpace(ci))
-            {
-                paciente = paciente.Where(p => p.CI.Contains(ci));
-            }
-
-            var pacientes = await paciente.ToListAsync();
-
-            if (!pacientes.Any())
-            {
-                return NotFound("No se encontraron pacientes");
-            }
-
-            return Ok(pacientes);
-        }
 
 
     }

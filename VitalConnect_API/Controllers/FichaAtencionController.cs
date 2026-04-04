@@ -64,20 +64,20 @@ namespace VitalConnect_API.Controllers
             {
                 return BadRequest("La cita no existe");
             }
-                
+
             // Varificar que la ficha no exista en otra cita
             var fichaExistente = await _context.FichaAtencion.FirstOrDefaultAsync(f => f.IdCita == ficha.IdCita);
             if (fichaExistente != null)
             {
                 return BadRequest("La cita ya tiene una ficha de atención");
             }
-                
+
 
             if (ficha.FechaAtencion < cita.Fecha)
             {
                 return BadRequest("La fecha de atención no puede ser menor a la cita");
             }
-                
+
             _context.FichaAtencion.Add(ficha);
             await _context.SaveChangesAsync();
 
@@ -119,9 +119,24 @@ namespace VitalConnect_API.Controllers
             return Ok(fichaObj);
         }
 
+        [HttpDelete("{id}")]
+
+        public async Task<IActionResult> DeleteFicha(int id)
+        {
+            var ficha = await _context.FichaAtencion.FirstOrDefaultAsync(f => f.FichaAtencionId == id);
+            if (ficha == null)
+            {
+                return NotFound("La ficha de atención no fue encontrado");
+            }
+            _context.FichaAtencion.Remove(ficha);
+            await _context.SaveChangesAsync();
+            return Ok("La ficha de atención se eliminó correctamente");
+        }
+
+
         [HttpPatch("{id}/cambiar-estado")]
 
-        public async Task<IActionResult> CambiarEstadoFechaAtencion(int id)
+        public async Task<IActionResult> PatchEstadoFicha(int id)
         {
             var ficha = await _context.FichaAtencion.FirstOrDefaultAsync(f => f.FichaAtencionId == id);
 
@@ -133,24 +148,44 @@ namespace VitalConnect_API.Controllers
             ficha.Estado = !ficha.Estado;
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok("Se cambio el estado de la ficha de atencion correctamente");
         }
 
-
-
-        [HttpGet("por-cita/{idCita}")]
-        public async Task<ActionResult<FichaAtencion>> GetFichaPorCita(int idCita)
+        // Obtener fichas por fecha
+        [HttpGet("fecha/{fecha}")]
+        public async Task<IActionResult> GetFichasPorFecha(DateTime fecha)
         {
-            var ficha = await _context.FichaAtencion.Include(f => f.Recetas).ThenInclude(r => r.DetallesReceta)
-                .FirstOrDefaultAsync(f => f.IdCita == idCita);
+            var fichas = await _context.FichaAtencion
+                .Where(f => f.FechaAtencion.Date == fecha.Date && f.Estado)
+                .Include(f => f.Recetas)
+                .ToListAsync();
 
-            if (ficha is null)
+            if (!fichas.Any())
             {
-                return NotFound("No existe ficha para esta cita");
+                return NotFound("No hay fichas en esa fecha");
             }
 
-            return Ok(ficha);
+            return Ok(fichas);
         }
+
+        // Obtener fichas por paciente
+        [HttpGet("paciente/{idPaciente}")]
+        public async Task<IActionResult> GetFichasPorPaciente(int idPaciente)
+        {
+            var fichas = await _context.FichaAtencion
+                .Where(f => f.Cita.IdPaciente == idPaciente && f.Estado)
+                .Include(f => f.Recetas)
+                .ToListAsync();
+
+            if (!fichas.Any())
+            {
+                return NotFound("El paciente no tiene fichas de atención");
+            }
+
+            return Ok(fichas);
+        }
+
+
 
     }
 }

@@ -19,14 +19,26 @@ namespace VitalConnect_API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Cita>>> Get()
+        public async Task<IActionResult> GetCitas()
         {
-            return Ok(await _context.Citas.ToListAsync());
+            var citas = await _context.Citas.ToListAsync();
+            return Ok(citas);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Cita>> GetCita(int id)
+        {
+            var cita = await _context.Citas.FirstOrDefaultAsync(c => c.CitaId == id);
+
+            if (cita == null)
+                return NotFound("Cita no encontrada");
+
+            return Ok(cita);
         }
 
 
         [HttpPost]
-        public async Task<ActionResult> Post(Cita cita)
+        public async Task<ActionResult> CreateCita(Cita cita)
         {
             if (cita == null)
                 return BadRequest("Los datos de la cita son obligatorios.");
@@ -72,12 +84,13 @@ namespace VitalConnect_API.Controllers
             return Ok(cita);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, Cita cita)
-        {
-            var data = await _context.Citas.FindAsync(id);
 
-            if (data == null)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Cita>> UpdateCita(int id, Cita cita)
+        {
+            var citaObj = await _context.Citas.FirstOrDefaultAsync(c => c.CitaId == id);
+
+            if (citaObj == null)
                 return NotFound("No se encontró la cita.");
 
             if (cita.Fecha == default)
@@ -89,28 +102,68 @@ namespace VitalConnect_API.Controllers
             if (string.IsNullOrWhiteSpace(cita.EstadoCita))
                 return BadRequest("El estado de la cita es obligatorio.");
 
-            data.Fecha = cita.Fecha;
-            data.Hora = cita.Hora;
-            data.Estado = cita.Estado;
-            data.EstadoCita = cita.EstadoCita;
-            data.IdPaciente = cita.IdPaciente;
-            data.IdProfesional = cita.IdProfesional;
-            data.IdAsistente = cita.IdAsistente;
+            citaObj.Fecha = cita.Fecha;
+            citaObj.Hora = cita.Hora;
+            citaObj.EstadoCita = cita.EstadoCita;
+            citaObj.Estado = cita.Estado;
+            citaObj.IdPaciente = cita.IdPaciente;
+            citaObj.IdProfesional = cita.IdProfesional;
+            citaObj.IdAsistente = cita.IdAsistente;
 
             await _context.SaveChangesAsync();
 
-            return Ok(data);
+            return Ok(citaObj);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult<Cita>> DeleteCita(int id)
         {
-            var data = await _context.Citas.FindAsync(id);
-            if (data == null) return NotFound();
+            var cita = await _context.Citas.FirstOrDefaultAsync(c => c.CitaId == id);
 
-            _context.Citas.Remove(data);
+            if (cita == null) return NotFound();
+
+            _context.Citas.Remove(cita);
             await _context.SaveChangesAsync();
-            return Ok();
+            return NoContent();
         }
+
+        [HttpPatch("{id}/cambiar-estado")]
+        public async Task<IActionResult> PatchEstadoCita(int id)
+        {
+            var cita = await _context.Citas
+                .FirstOrDefaultAsync(c => c.CitaId == id);
+
+            if (cita == null)
+                return NotFound("Cita no encontrada");
+
+            cita.Estado = !cita.Estado;
+
+            await _context.SaveChangesAsync();
+
+            return Ok("Se cambio el estado de la cita correctamente");
+        }
+
+        // Obtener citas por estado (pendiente, confirmada, cancelada)
+        [HttpGet("estado-cita/{estado}")]
+        public async Task<IActionResult> GetCitasPorEstado(string estado)
+        {
+            if (string.IsNullOrWhiteSpace(estado))
+            {
+                return BadRequest("El estado es obligatorio");
+            }
+
+            var citas = await _context.Citas
+                .Where(c => c.EstadoCita.ToLower() == estado.ToLower() && c.Estado)
+                .ToListAsync();
+
+            if (!citas.Any())
+            {
+                return NotFound("No hay citas con ese estado");
+            }
+
+            return Ok(citas);
+        }
+
+
     }
 }
