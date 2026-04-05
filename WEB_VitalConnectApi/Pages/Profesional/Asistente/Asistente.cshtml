@@ -1,10 +1,116 @@
 ﻿@page
-@model IndexModel
+@model WEB_VitalConnectApi.Pages.AsistenteModel
 @{
     ViewData["Title"] = "Asistentes";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+    <div class="card shadow rounded-4 p-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+            <div>
+                <h2 class="mb-1">Gestión de Asistentes</h2>
+                <p class="text-muted mb-0">Consulta, cambia estado y elimina asistentes</p>
+            </div>
+
+            <a asp-page="/Profesional/Asistente/Registrar" class="btn btn-primary">
+                Registrar Asistente
+            </a>
+        </div>
+
+        <form method="get" class="row g-3 mb-4">
+            <div class="col-md-6">
+                <label class="form-label">Filtrar por turno</label>
+                <select asp-for="FiltroTurno" class="form-select">
+                    <option value="">Todos</option>
+                    <option value="Mañana">Mañana</option>
+                    <option value="Tarde">Tarde</option>
+                    <option value="Noche">Noche</option>
+                </select>
+            </div>
+
+            <div class="col-md-6 d-flex align-items-end gap-2">
+                <button type="submit" class="btn btn-success">Buscar</button>
+                <a asp-page="/Profesional/Asistente/Asistente" class="btn btn-outline-secondary">Limpiar</a>
+            </div>
+        </form>
+
+        @if (!string.IsNullOrEmpty(Model.Mensaje))
+        {
+            <div class="alert alert-info">
+                @Model.Mensaje
+            </div>
+        }
+
+        @if (Model.Asistentes != null && Model.Asistentes.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre Completo</th>
+                            <th>CI</th>
+                            <th>Teléfono</th>
+                            <th>Rol</th>
+                            <th>Turno</th>
+                            <th>Estado</th>
+                            <th style="width: 280px;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var asistente in Model.Asistentes)
+                        {
+                            <tr>
+                                <td>@asistente.ID</td>
+                                <td>@asistente.NombreCompleto</td>
+                                <td>@asistente.CI</td>
+                                <td>@asistente.Telefono</td>
+                                <td>@asistente.Rol</td>
+                                <td>@asistente.Turno</td>
+                                <td>
+                                    @if (asistente.Estado)
+                                    {
+                                        <span class="badge bg-success">Activo</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">Inactivo</span>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <a asp-page="/Profesional/Asistente/Registrar"
+                                           asp-route-id="@asistente.ID"
+                                           class="btn btn-warning btn-sm">
+                                            Editar
+                                        </a>
+
+                                        <form method="post" asp-page-handler="CambiarEstado">
+                                            <input type="hidden" name="id" value="@asistente.ID" />
+                                            <button type="submit" class="btn btn-secondary btn-sm">
+                                                Estado
+                                            </button>
+                                        </form>
+
+                                        <form method="post" asp-page-handler="Eliminar">
+                                            <input type="hidden" name="id" value="@asistente.ID" />
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                Eliminar
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-warning mb-0">
+                No hay asistentes registrados.
+            </div>
+        }
+    </div>
 </div>
