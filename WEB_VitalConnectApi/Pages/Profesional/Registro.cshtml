@@ -1,10 +1,44 @@
 ﻿@page
-@model IndexModel
+@model RegistroModel
 @{
     ViewData["Title"] = "Registrar Profesional";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+
+    <div class="card shadow rounded-4 p-4">
+        <h3 class="fw-bold mb-4">Perfil del Profesional</h3>
+
+        <form method="post">
+
+            <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                <input asp-for="Profesional.NombreCompleto" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                <input asp-for="Profesional.Telefono" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                <input asp-for="Profesional.CI" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Especialidad</label>
+                <input asp-for="Profesional.Especialidad" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Matrícula</label>
+                <input asp-for="Profesional.MatriculaProfesional" class="form-control" />
+            </div>
+
+            <button class="btn btn-primary w-100">Guardar</button>
+
+        </form>
+    </div>
+
 </div>

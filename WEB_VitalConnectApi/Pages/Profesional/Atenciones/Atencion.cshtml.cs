@@ -1,20 +1,28 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using WEB_VitalConnectApi.Services;
+using WEB_VitalConnectApi.Models;
 
 namespace WEB_VitalConnectApi.Pages
 {
     public class AtencionModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly ApiService _api;
 
-        public AtencionModel(ILogger<IndexModel> logger)
+        public List<FichaAtencion> Lista { get; set; }
+
+        public AtencionModel(ApiService api)
         {
-            _logger = logger;
+            _api = api;
         }
 
-        public void OnGet()
+        public async Task OnGet()
         {
+            var fichas = await _api.GetAsync<List<FichaAtencion>>("FichaAtencion");
 
+            Lista = fichas
+                .Where(f => f.FechaAtencion.Date == DateTime.Today)
+                .ToList();
         }
     }
 }

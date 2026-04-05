@@ -1,20 +1,27 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using WEB_VitalConnectApi.Services;
+using WEB_VitalConnectApi.Models;
+
 
 namespace WEB_VitalConnectApi.Pages
 {
     public class RegistroModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly ApiService _api;
 
-        public RegistroModel(ILogger<IndexModel> logger)
+        [BindProperty]
+        public Profesionales Profesional { get; set; }
+
+        public RegistroModel(ApiService api)
         {
-            _logger = logger;
+            _api = api;
         }
 
-        public void OnGet()
+        public async Task<IActionResult> OnPost()
         {
-
+            await _api.PostAsync("Profesional", Profesional);
+            return RedirectToPage("Profesional");
         }
     }
 }

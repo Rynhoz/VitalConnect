@@ -1,10 +1,29 @@
 ﻿@page
-@model IndexModel
+@model ProfesionalModel
 @{
     ViewData["Title"] = "Inicio Profesional";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+
+    <h2 class="fw-bold mb-4">Panel del Médico</h2>
+
+    <div class="row g-4">
+
+        <div class="col-md-6">
+            <div class="card shadow rounded-4 p-4">
+                <h6 class="text-muted">Citas de hoy</h6>
+                <h1 class="fw-bold">@Model.CitasHoy</h1>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow rounded-4 p-4">
+                <h6 class="text-muted">Pacientes atendidos (7 días)</h6>
+                <h1 class="fw-bold">@Model.PacientesSemana</h1>
+            </div>
+        </div>
+
+    </div>
+
 </div>
