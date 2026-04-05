@@ -1,10 +1,202 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Pagina Principal";
+    ViewData["Title"] = "VitalConnect API";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container my-5">
+    <div class="row align-items-center mb-5 bg-body-tertiary p-4 rounded-4 shadow-sm border bg-gradient-vital">
+        <div class="col-md-8 text-center text-md-start">
+            <p class="text-body-secondary mb-1">Bienvenido de nuevo,</p>
+            <h1 class="display-5 fw-bold text-info">Dr. Alexander Arias</h1>
+            <p class="lead text-secondary mb-0 col-md-10">Aquí tienes un resumen de VitalConnect para el día de hoy.</p>
+        </div>
+        <div class="col-md-4 text-center text-md-end mt-3 mt-md-0 border-start-md ps-md-4">
+            <div class="d-flex justify-content-center justify-content-md-end gap-3 align-items-center">
+                <button class="btn btn-sm btn-light rounded-circle p-2 text-muted shadow-sm"><i class="bi bi-bell-fill fs-5"></i></button>
+                <button class="btn btn-sm btn-light rounded-circle p-2 text-muted shadow-sm"><i class="bi bi-chat-dots-fill fs-5"></i></button>
+                <a asp-page="/Profesional/Profesional" class="text-decoration-none" title="Ver Mi Perfil">
+                    <img src="https://ui-avatars.com/api/?name=Alexander+Arias&background=0dcaf0&color=fff&rounded=true" width="55" height="55" class="rounded-circle border border-2 border-info" alt="Perfil">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+        <div class="col">
+            <div class="card h-100 border-0 rounded-4 shadow-sm bg-info bg-opacity-10 transition-hover">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-info fw-bold small text-uppercase">Citas Programadas (Mes)</span>
+                        <i class="bi bi-calendar-check text-info fs-4"></i>
+                    </div>
+                    <h2 class="display-4 fw-bold text-info mb-1">128</h2>
+                    <p class="text-muted small mb-0"><i class="bi bi-graph-up text-success me-1"></i> +8% vs semana pasada</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 border-0 rounded-4 shadow-sm bg-body-tertiary transition-hover">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-body-secondary fw-bold small text-uppercase">Nuevos Pacientes (Mes)</span>
+                        <i class="bi bi-person-plus text-body-secondary fs-4"></i>
+                    </div>
+                    <h2 class="display-4 fw-bold text-body-emphasis mb-1">45</h2>
+                    <p class="text-muted small mb-0"><i class="bi bi-graph-up text-success me-1"></i> +12% vs mes anterior</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 border-0 rounded-4 shadow-sm bg-body-tertiary transition-hover">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-body-secondary fw-bold small text-uppercase">Atenciones Completadas</span>
+                        <i class="bi bi-check-circle text-body-secondary fs-4"></i>
+                    </div>
+                    <h2 class="display-4 fw-bold text-body-emphasis mb-1">312</h2>
+                    <p class="text-muted small mb-0"><i class="bi bi-graph-down text-danger me-1"></i> -3% vs ayer</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+        <div class="col">
+            <div class="card h-100 border-0 rounded-4 shadow-sm transition-hover border-start border-info border-3">
+                <div class="card-body p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-person-heart text-info fs-2"></i>
+                    </div>
+                    <h4 class="card-title fw-bold">Atención Integral al Paciente</h4>
+                    <p class="card-text text-secondary small">Gestiona registros detallados, historial médico y planes de tratamiento en un solo lugar seguro.</p>
+                    <a asp-page="/Paciente/Paciente" class="btn btn-sm btn-vital rounded-pill px-4 mt-2">Ver Pacientes <i class="bi bi-arrow-right ms-1"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 border-0 rounded-4 shadow-sm transition-hover border-start border-info border-3">
+                <div class="card-body p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-calendar-check-fill text-info fs-2"></i>
+                    </div>
+                    <h4 class="card-title fw-bold">Agenda Médica Inteligente</h4>
+                    <p class="card-text text-secondary small">Optimiza tu tiempo con calendarios interactivos, recordatorios automáticos y gestión de turnos.</p>
+                    <a asp-page="/Profesional/Citas/Agenda" class="btn btn-sm btn-vital rounded-pill px-4 mt-2">Check Agenda <i class="bi bi-arrow-right ms-1"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 border-0 rounded-4 shadow-sm transition-hover border-start border-info border-3">
+                <div class="card-body p-4">
+                    <div class="mb-3">
+                        <i class="bi bi-hospital text-info fs-2"></i>
+                    </div>
+                    <h4 class="card-title fw-bold">Gestión de Turnos y Consultas</h4>
+                    <p class="card-text text-secondary small">Simplifica el flujo de atención, coordinando turnos y visitas clínicas de manera eficiente.</p>
+                    <a asp-page="/Profesional/Atenciones/Atencion" class="btn btn-sm btn-vital rounded-pill px-4 mt-2">Gestionar Turnos <i class="bi bi-arrow-right ms-1"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-7">
+            <div class="card h-100 border-0 rounded-4 shadow-sm bg-body-tertiary">
+                <div class="card-header bg-transparent border-0 pt-4 px-4 d-flex justify-content-between align-items-center">
+                    <h5 class="fw-bold m-0 text-info"><i class="bi bi-lightning-charge-fill me-2"></i>Acciones Rápidas</h5>
+                    <button class="btn btn-sm btn-light rounded-circle p-2 text-muted shadow-sm"><i class="bi bi-three-dots-vertical fs-6"></i></button>
+                </div>
+                <div class="card-body p-4 pt-2">
+                    <div class="d-grid gap-3">
+                        <a href="#" class="btn btn-outline-info rounded-pill py-3 fw-bold shadow-sm d-flex align-items-center justify-content-center transition-hover">
+                            <i class="bi bi-person-plus me-3 fs-5"></i> Registrar Nuevo Paciente
+                        </a>
+                        <a href="#" class="btn btn-outline-info rounded-pill py-3 fw-bold shadow-sm d-flex align-items-center justify-content-center transition-hover">
+                            <i class="bi bi-calendar-plus me-3 fs-5"></i> Agendar Nueva Cita
+                        </a>
+                        <a href="#" class="btn btn-outline-info rounded-pill py-3 fw-bold shadow-sm d-flex align-items-center justify-content-center transition-hover">
+                            <i class="bi bi-file-earmark-medical me-3 fs-5"></i> Generar Reporte de Tratamiento
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="card h-100 border-0 rounded-4 shadow-sm bg-body-tertiary">
+                <div class="card-header bg-transparent border-0 pt-4 px-4 d-flex justify-content-between align-items-center">
+                    <h5 class="fw-bold m-0"><i class="bi bi-clock-history me-2"></i>Actividad Reciente</h5>
+                    <button class="btn btn-sm btn-light rounded-circle p-2 text-muted shadow-sm"><i class="bi bi-three-dots-vertical fs-6"></i></button>
+                </div>
+                <div class="card-body p-4 pt-2">
+                    <ul class="list-group list-group-flush small text-body-secondary">
+                        <li class="list-group-item bg-transparent border-0 ps-0 d-flex gap-2">
+                            <i class="bi bi-person-plus text-success"></i>
+                            <span>Paciente <strong class="text-body-emphasis">Lucía Méndez</strong> registrado con éxito.</span>
+                            <small class="text-muted ms-auto">2m ago</small>
+                        </li>
+                        <li class="list-group-item bg-transparent border-0 ps-0 d-flex gap-2">
+                            <i class="bi bi-calendar-check text-info"></i>
+                            <span>Cita confirmada para <strong class="text-body-emphasis">Juan Carlos Pérez</strong> el lunes.</span>
+                            <small class="text-muted ms-auto">15m ago</small>
+                        </li>
+                        <li class="list-group-item bg-transparent border-0 ps-0 d-flex gap-2">
+                            <i class="bi bi-file-earmark-medical text-warning"></i>
+                            <span>Reporte de tratamiento generado para <strong class="text-body-emphasis">Lucía Méndez</strong>.</span>
+                            <small class="text-muted ms-auto">1h ago</small>
+                        </li>
+                         <li class="list-group-item bg-transparent border-0 ps-0 d-flex gap-2">
+                            <i class="bi bi-calendar-check text-info"></i>
+                            <span>Turno de seguimiento agendado para <strong class="text-body-emphasis">Carlos G. Arias</strong>.</span>
+                            <small class="text-muted ms-auto">3h ago</small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-info bg-opacity-10 py-5 mt-5 rounded-4">
+        <div class="container text-center py-4 rounded-4 shadow-sm border bg-body-tertiary col-md-10">
+            <h2 class="display-6 fw-bold text-info mb-3">Redefiniendo la Gestión de la Salud</h2>
+            <p class="lead text-secondary mb-4 col-md-8 mx-auto">Disfruta de una plataforma integrada y fluida, diseñada para empoderar a los equipos clínicos y mejorar los resultados de los pacientes.</p>
+            <a href="#" class="btn btn-vital rounded-pill py-3 px-5 fw-bold shadow-lg transition-hover">
+                <i class="bi bi-rocket-takeoff me-2"></i>Empieza ahora con VitalConnect
+            </a>
+            <p class="small text-muted mt-3 mb-0">Obtén más información sobre nuestras funciones principales y su integración.</p>
+        </div>
+    </div>
+
 </div>
+
+@* Estilo personalizado para integrarse con el tema existente *@
+<style>
+    .transition-hover:hover {
+        transform: translateY(-5px);
+        transition: all 0.3s ease;
+        box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+    }
+    /* Definición del botón custom "btn-vital" de la estética establecida */
+    .btn-vital {
+        background-color: #0dcaf0; /* Color info/cyan del tema */
+        color: #000;
+        font-weight: 600;
+        border: none;
+        transition: all 0.2s ease;
+    }
+    .btn-vital:hover {
+        background-color: #31d2f2;
+        transform: translateY(-1px);
+        color: #000;
+    }
+    /* Borde a la izquierda en MD */
+    @@media (min-width: 768px) {
+        .border-start-md {
+            border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+    }
+    /* Gradiente suave de fondo usando el color info */
+    .bg-gradient-vital {
+        background-image: linear-gradient(180deg, rgba(8, 145, 178, 0.05), transparent);
+    }
+</style>
