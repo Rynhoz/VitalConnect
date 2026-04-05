@@ -1,10 +1,81 @@
-﻿@page
-@model IndexModel
+﻿@page "{id?}"
+@model WEB_VitalConnectApi.Pages.RegistrarModel
 @{
-    ViewData["Title"] = "Registrar Asistente";
+    ViewData["Title"] = Model.Formulario.ID > 0 ? "Editar Asistente" : "Registrar Asistente";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+    <div class="card shadow rounded-4 p-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+            <div>
+                <h2 class="mb-1">@(Model.Formulario.ID > 0 ? "Editar Asistente" : "Registrar Asistente")</h2>
+                <p class="text-muted mb-0">Completa los datos del asistente</p>
+            </div>
+
+            <a asp-page="/Profesional/Asistente/Asistente" class="btn btn-outline-primary">
+                Volver a la Lista
+            </a>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.Mensaje))
+        {
+            <div class="alert alert-danger">
+                @Model.Mensaje
+            </div>
+        }
+
+        <form method="post">
+            <input asp-for="Formulario.ID" type="hidden" />
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Nombre Completo</label>
+                    <input asp-for="Formulario.NombreCompleto" class="form-control" />
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">CI</label>
+                    <input asp-for="Formulario.CI" class="form-control" />
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Teléfono</label>
+                    <input asp-for="Formulario.Telefono" class="form-control" />
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Turno</label>
+                    <select asp-for="Formulario.Turno" class="form-select">
+                        <option value="">Seleccione</option>
+                        <option value="Mañana">Mañana</option>
+                        <option value="Tarde">Tarde</option>
+                        <option value="Noche">Noche</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Rol</label>
+                    <input asp-for="Formulario.Rol" class="form-control" readonly />
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Estado</label>
+                    <select asp-for="Formulario.Estado" class="form-select">
+                        <option value="true">Activo</option>
+                        <option value="false">Inactivo</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex gap-2">
+                <button type="submit" class="btn btn-success">
+                    @(Model.Formulario.ID > 0 ? "Actualizar" : "Guardar")
+                </button>
+
+                <a asp-page="/Profesional/Asistente/Registrar" class="btn btn-outline-secondary">
+                    Limpiar
+                </a>
+            </div>
+        </form>
+    </div>
 </div>
