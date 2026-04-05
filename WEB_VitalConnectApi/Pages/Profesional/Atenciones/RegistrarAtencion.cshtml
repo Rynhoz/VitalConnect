@@ -1,0 +1,76 @@
+﻿@page "{id?}"
+@model RegistrarAtencionModel
+@{
+    ViewData["Title"] = Model.Formulario.ID > 0 ? "Editar Atención" : "Registrar Atención";
+}
+
+<div class="container mt-4">
+    <div class="card shadow rounded-4 p-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+            <div>
+                <h2 class="mb-1">@Model.Formulario.ID > 0 ? "Editar Atención" : "Registrar Atención")</h2>
+                <p class="text-muted mb-0">Completa la información de la atención médica</p>
+            </div>
+
+            <a asp-page="/Profesional/Atenciones/Atenciones" class="btn btn-outline-primary">
+                Volver a la Lista
+            </a>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.Mensaje))
+        {
+            <div class="alert alert-danger">
+                @Model.Mensaje
+            </div>
+        }
+
+        <form method="post">
+            <input asp-for="Formulario.ID" type="hidden" />
+
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Fecha de Atención</label>
+                    <input asp-for="Formulario.FechaAtencion" type="date" class="form-control" />
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">ID Cita</label>
+                    <input asp-for="Formulario.IdCita" type="number" min="1" class="form-control" />
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Estado</label>
+                    <select asp-for="Formulario.Estado" class="form-select">
+                        <option value="true">Activo</option>
+                        <option value="false">Inactivo</option>
+                    </select>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">Diagnóstico</label>
+                    <textarea asp-for="Formulario.Diagnostico" class="form-control" rows="3"></textarea>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">Observaciones</label>
+                    <textarea asp-for="Formulario.Observaciones" class="form-control" rows="3"></textarea>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">Tratamiento</label>
+                    <textarea asp-for="Formulario.Tratamiento" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex gap-2">
+                <button type="submit" class="btn btn-success">
+                    @(Model.Formulario.ID > 0 ? "Actualizar" : "Guardar")
+                </button>
+
+                <a asp-page="/Profesional/Atenciones/Registrar" class="btn btn-outline-secondary">
+                    Limpiar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
