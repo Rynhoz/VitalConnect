@@ -2,84 +2,85 @@
 @model ErrorModel
 @{
     Layout = null;
-    ViewData["Title"] = "Error 7w7";
+    ViewData["Title"] = "Error 7w7 | VitalConnect";
 }
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-bs-theme="dark">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <style>
-        /* Estilos necesarios para lograr el look exacto de la imagen */
-        :root {
-            --vital-teal: #0891b2;
-            --vital-teal-hover: #0e7490;
-        }
-
-        .bg-vital-gradient {
-            background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+        body {
+            /* Usamos el mismo color de fondo que Bootstrap Dark */
+            background-color: #212529;
+            color: #dee2e6;
             min-height: 100vh;
         }
 
-        .btn-teal {
-            background-color: var(--vital-teal) !important;
-            color: white !important;
+        .card-error {
+            background-color: #2b3035; /* Un tono ligeramente más claro que el fondo */
+            border: 1px solid #495057;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .btn-vital {
+            background-color: #0dcaf0; /* El color info de tu navbar */
+            color: #000;
+            font-weight: 600;
             border: none;
             transition: all 0.2s ease;
         }
 
-            .btn-teal:hover {
-                background-color: var(--vital-teal-hover) !important;
-                transform: translateY(-2px);
+            .btn-vital:hover {
+                background-color: #31d2f2;
+                transform: translateY(-1px);
             }
 
-        .text-teal {
-            color: var(--vital-teal) !important;
-        }
-
-        /* Redondeado extra para estilo moderno */
-        .rounded-vital {
-            border-radius: 2.5rem !important;
+        .trace-box {
+            background-color: #1a1d20;
+            font-family: 'Consolas', monospace;
+            font-size: 0.8rem;
+            color: #adb5bd;
         }
     </style>
 </head>
-<body class="bg-vital-gradient d-flex align-items-center justify-content-center p-3">
+<body class="d-flex align-items-center justify-content-center p-3">
 
-    <div class="bg-white shadow-sm rounded-vital p-5 text-center" style="max-width: 550px; width: 100%;">
+    <div class="card-error shadow-lg rounded-4 p-5 text-center">
 
-        <div class="bg-light rounded-4 d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#0891b2" class="bi bi-activity" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M6 2a.5.5 0 0 1 .47.33L10 12.036l1.53-4.208A.5.5 0 0 1 12 7.5h3.5a.5.5 0 0 1 0 1h-3.15l-1.88 5.17a.5.5 0 0 1-.94 0L6 3.964 4.47 8.171A.5.5 0 0 1 4 8.5H.5a.5.5 0 0 1 0-1h3.15l1.88-5.17A.5.5 0 0 1 6 2Z" />
-            </svg>
+        <div class="mb-4">
+            <i class="bi bi-exclamation-triangle text-info" style="font-size: 3rem;"></i>
         </div>
 
-        <h1 class="display-6 fw-bold text-dark mb-3">¡Algo salió mal!</h1>
+        <h1 class="h3 fw-bold mb-3">Error del Sistema</h1>
 
-        <p class="text-muted mb-5 px-md-3">
-            Lo sentimos, el servidor está experimentando dificultades técnicas.
-            Por favor, intenta de nuevo más tarde o contacta al soporte.
+        <p class="text-secondary mb-5">
+            Lo sentimos, hemos encontrado una dificultad técnica inesperada. El incidente ha sido registrado para su revisión.
         </p>
 
-        <div class="d-flex flex-column flex-sm-row align-items-center justify-content-center gap-3">
-            <a asp-page="/Index" class="btn btn-teal fw-bold px-4 py-2 shadow-sm">
-                Volver al Inicio
+        <div class="d-grid gap-2">
+            <a asp-page="/Index" class="btn btn-vital rounded-pill py-2">
+                <i class="bi bi-arrow-left me-2"></i>Volver al Inicio
             </a>
-            <a href="mailto:soporte@vitalconnect.com" class="text-teal fw-bold text-decoration-none px-3">
-                Contactar Soporte
+            <a href="mailto:support@vitalconnect.com" class="btn btn-link text-info text-decoration-none small mt-2">
+                Reportar este problema
             </a>
         </div>
 
         @if (Model.ShowRequestId)
         {
-            <div class="mt-5 pt-4 border-top">
-                <p class="text-uppercase text-secondary m-0" style="font-size: 0.7rem; letter-spacing: 1px;">
-                    Error Code: VC-500-@Model.RequestId
-                </p>
+            <div class="mt-5 pt-4 border-top border-secondary border-opacity-25">
+                <div class="trace-box p-2 rounded-3">
+                    <span class="text-uppercase small fw-bold">ID de Seguimiento:</span><br />
+                    <code>@Model.RequestId</code>
+                </div>
             </div>
         }
     </div>
