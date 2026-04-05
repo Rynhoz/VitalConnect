@@ -1,10 +1,78 @@
 ﻿@page
-@model IndexModel
+@model Pages.Profesional.Medicamento.MedicamentoModel
 @{
     ViewData["Title"] = "Medicamentos";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold">Gestión de Medicamentos</h3>
+        <a class="btn btn-primary" asp-page="Agregar">+ Nuevo</a>
+    </div>
+
+    
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-4">
+            <div class="card shadow rounded-4 p-3 text-center">
+                <h6 class="text-muted">Total</h6>
+                <h2 class="fw-bold">@Model.TotalMedicamentos</h2>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow rounded-4 p-3 text-center">
+                <h6 class="text-muted">Activos</h6>
+                <h2 class="fw-bold text-success">@Model.Activos</h2>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow rounded-4 p-3 text-center">
+                <h6 class="text-muted">Inactivos</h6>
+                <h2 class="fw-bold text-danger">@Model.Inactivos</h2>
+            </div>
+        </div>
+
+    </div>
+
+    
+    <div class="card shadow rounded-4 p-3">
+
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var m in Model.Medicamentos)
+                {
+                    <tr>
+                        <td class="fw-semibold">@m.Nombre</td>
+                        <td class="text-muted">@m.Descripcion</td>
+                        <td>
+                            @if (m.Estado)
+                            {
+                                <span class="badge bg-success">Activo</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Inactivo</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+
 </div>
+
