@@ -19,10 +19,10 @@ namespace VitalConnect_API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Asistente>>> GetAsistentes()
+        public async Task<IActionResult> GetAsistentes()
         {
-            //Retornar asistentes
-            return Ok(await _context.Asistentes.ToListAsync());
+            var asistentes = await _context.Asistentes.ToListAsync();
+            return Ok(asistentes);
         }
 
         [HttpGet("{id}")]

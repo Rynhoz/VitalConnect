@@ -11,8 +11,8 @@ using VitalConnect_API.Data;
 namespace VitalConnect_API.Migrations
 {
     [DbContext(typeof(VT_DbContext))]
-    [Migration("20260404044941_initial")]
-    partial class initial
+    [Migration("20260405200947_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
