@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VitalConnect_API.Data;
 
@@ -10,9 +11,11 @@ using VitalConnect_API.Data;
 namespace VitalConnect_API.Migrations
 {
     [DbContext(typeof(VT_DbContext))]
-    partial class VT_DbContextModelSnapshot : ModelSnapshot
+    [Migration("20260406060720_FixForeignKeysCita")]
+    partial class FixForeignKeysCita
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.14");

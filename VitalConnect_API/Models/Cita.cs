@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace VitalConnect_API.Models
 {
@@ -7,23 +8,25 @@ namespace VitalConnect_API.Models
         public int CitaId { get; set; }
         public DateTime Fecha { get; set; }
         public string Hora { get; set; } = string.Empty;
-
         public string EstadoCita { get; set; } = string.Empty;
         public bool Estado { get; set; } = true;
+
         public int IdPaciente { get; set; }
 
+        [ForeignKey(nameof(IdPaciente))]
         [JsonIgnore]
         public Paciente? Paciente { get; set; }
 
         public int IdProfesional { get; set; }
 
+        [ForeignKey(nameof(IdProfesional))]
         [JsonIgnore]
         public Profesional? Profesional { get; set; }
 
         public int? IdAsistente { get; set; }
 
+        [ForeignKey(nameof(IdAsistente))]
         [JsonIgnore]
         public Asistente? Asistente { get; set; }
-
     }
 }
