@@ -13,25 +13,60 @@ namespace WEB_VitalConnectApi.Pages
             _apiService = apiService;
         }
 
-        public List<VitalConnect_API.Models.Profesional> Profesionales { get; set; } = new();
-        public List<VitalConnect_API.Models.Asistente> Asistentes { get; set; } = new();
+        public List<ProfesionalDto> Profesionales { get; set; } = new();
+
+        [BindProperty(SupportsGet = true)]
+        public string? FiltroEspecialidad { get; set; }
+
+        [TempData]
+        public string Mensaje { get; set; } = string.Empty;
 
         public async Task OnGetAsync()
         {
-            Profesionales = await _apiService.GetListAsync<VitalConnect_API.Models.Profesional>("api/Profesional") ?? new();
-            Asistentes = await _apiService.GetListAsync<VitalConnect_API.Models.Asistente>("api/Asistente") ?? new();
+            var lista = await _apiService.GetListAsync<ProfesionalDto>("api/Profesional");
+
+            if (lista != null)
+            {
+                if (!string.IsNullOrWhiteSpace(FiltroEspecialidad))
+                {
+                    Profesionales = lista.Where(p => p.Especialidad == FiltroEspecialidad).ToList();
+
+                    if (!Profesionales.Any()) Mensaje = "No se encontraron profesionales para esa especialidad.";
+                }
+                else
+                {
+                    Profesionales = lista;
+                }
+            }
+
+            if (!Profesionales.Any() && string.IsNullOrEmpty(Mensaje))
+            {
+                Mensaje = "No hay profesionales registrados.";
+            }
         }
 
-        public async Task<IActionResult> OnPostInactivarProfesional(string id)
+        public async Task<IActionResult> OnPostEliminarAsync(int id)
         {
-            await _apiService.PatchAsync($"api/Profesional/Inactivar/{id}");
+            var ok = await _apiService.DeleteAsync($"api/Profesional/{id}");
+            Mensaje = ok ? "Profesional eliminado correctamente." : "No se pudo eliminar el profesional.";
             return RedirectToPage();
         }
 
-        public async Task<IActionResult> OnPostInactivarAsistente(string id)
+        public async Task<IActionResult> OnPostCambiarEstadoAsync(int id)
         {
-            await _apiService.PatchAsync($"api/Asistente/Inactivar/{id}");
+            var ok = await _apiService.PatchAsync($"api/Profesional/{id}/cambiar-estado");
+            Mensaje = ok ? "Estado del profesional cambiado correctamente." : "No se pudo cambiar el estado.";
             return RedirectToPage();
+        }
+
+        public class ProfesionalDto
+        {
+            public int ID { get; set; } 
+            public string NombreCompleto { get; set; } = string.Empty;
+            public string Especialidad { get; set; } = string.Empty;
+            public string MatriculaProfesional { get; set; } = string.Empty;
+            public string CI { get; set; } = string.Empty;
+            public bool Estado { get; set; } = true;
         }
     }
 }

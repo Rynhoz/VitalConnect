@@ -22,49 +22,71 @@
                     </button>
 
                     <div class="collapse navbar-collapse" id="navVital">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link fw-medium" asp-page="/Lista">Personal</a>
-                            </li>
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1">
+
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle fw-medium" href="#" role="button" data-bs-toggle="dropdown">
-                                    Pacientes
+                                    <i class="bi bi-people me-1"></i> Pacientes
                                 </a>
                                 <ul class="dropdown-menu shadow border-0 rounded-3 mt-2">
-                                    <li><a class="dropdown-item" asp-page="/Paciente/Paciente">Lista / Perfil</a></li>
-                                    <li><a class="dropdown-item" asp-page="/Paciente/RegistroPaciente">Nuevo Registro</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Paciente/Paciente">Lista de Pacientes</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Paciente/RegistroPaciente">Registrar Paciente</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-page="/Paciente/Historial">Consultar Historial Clínico</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Paciente/Recetas">Ver Recetas Médicas</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle fw-medium" href="#" role="button" data-bs-toggle="dropdown">
+                                    <i class="bi bi-calendar-check me-1"></i> Citas
+                                </a>
+                                <ul class="dropdown-menu shadow border-0 rounded-3 mt-2">
+                                    <li><h6 class="dropdown-header">Para Pacientes</h6></li>
                                     <li><a class="dropdown-item" asp-page="/Paciente/ReservarCita">Reservar Cita</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" asp-page="/Paciente/Historial">Historial Clínico</a></li>
-                                    <li><a class="dropdown-item" asp-page="/Paciente/Recetas">Recetas</a></li>
+                                    <li><h6 class="dropdown-header">Para Staff Médico</h6></li>
+                                    <li><a class="dropdown-item" asp-page="/Profesional/Citas/Agenda">Consultar Agenda Diaria</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Profesional/Citas/Gestion">Gestión General de Citas</a></li>
                                 </ul>
                             </li>
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle fw-medium" href="#" role="button" data-bs-toggle="dropdown">
-                                    Profesional
+                                    <i class="bi bi-clipboard2-pulse me-1"></i> Atención
                                 </a>
                                 <ul class="dropdown-menu shadow border-0 rounded-3 mt-2">
-                                    <li><a class="dropdown-item" asp-page="/Profesional/Profesional">Mi Perfil</a></li>
-                                    <li><a class="dropdown-item" asp-page="/Profesional/Atenciones/Atencion">Atenciones</a></li>
-                                    <li><a class="dropdown-item" asp-page="/Profesional/Atenciones/CrearReceta">Crear Receta</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" asp-page="/Profesional/Medicamento/Medicamento">Inventario Medicamentos</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Profesional/Atenciones/Atencion">Fichas de Atención</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Profesional/Atenciones/RegistrarAtencion">Registrar Atención/Receta</a></li>
                                 </ul>
                             </li>
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle fw-medium" href="#" role="button" data-bs-toggle="dropdown">
-                                    Gestión
+                                    <i class="bi bi-capsule me-1"></i> Farmacia
                                 </a>
                                 <ul class="dropdown-menu shadow border-0 rounded-3 mt-2">
-                                    <li><a class="dropdown-item" asp-page="/Profesional/Citas/Agenda">Agenda Diaria</a></li>
-                                    <li><a class="dropdown-item" asp-page="/Profesional/Citas/Gestion">Gestión de Citas</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Profesional/Medicamento/Medicamento">Inventario de Medicamentos</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Profesional/Medicamento/Agregar">Agregar Medicamento</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle fw-medium" href="#" role="button" data-bs-toggle="dropdown">
+                                    <i class="bi bi-person-badge me-1"></i> Personal
+                                </a>
+                                <ul class="dropdown-menu shadow border-0 rounded-3 mt-2">
+                                    <li><h6 class="dropdown-header">Profesionales</h6></li>
+                                    <li><a class="dropdown-item" asp-page="/Lista">Directorio Médico</a></li>
+                                    <li><a class="dropdown-item" asp-page="/CrearProfesional">Registrar Médico</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" asp-page="/Profesional/Asistente/Asistente">Asistentes</a></li>
+                                    <li><h6 class="dropdown-header">Asistentes</h6></li>
+                                    <li><a class="dropdown-item" asp-page="/Profesional/Asistente/Asistente">Gestión de Asistentes</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Profesional/Asistente/Registrar">Registrar Asistente</a></li>
                                 </ul>
                             </li>
                         </ul>
+
                         <div class="d-flex align-items-center gap-3">
                             <button class="btn btn-sm btn-outline-secondary rounded-circle p-2" onclick="toggleTheme()" type="button">
                                 <i class="bi bi-sun-fill d-none-dark"></i>
@@ -76,9 +98,10 @@
                                     <img src="https://ui-avatars.com/api/?name=Zenon&background=0dcaf0&color=fff" width="35" height="35" class="rounded-circle border">
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 rounded-3">
-                                    <li><a class="dropdown-item" asp-page="/Profesional/Registro">Configuración</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Profesional/Profesional">Mi Perfil Profesional</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Profesional/Registro">Configuración de Cuenta</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item text-danger" href="#">Logout</a></li>
+                                    <li><a class="dropdown-item text-danger" href="#">Cerrar Sesión</a></li>
                                 </ul>
                             </div>
                         </div>
