@@ -1,30 +1,42 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using WEB_VitalConnectApi.Services;
-using WEB_VitalConnectApi.Models;
 
-namespace WEB_VitalConnectApi.Pages
+namespace WEB_VitalConnectApi.Pages.Profesional.Medicamento
 {
     public class AgregarModel : PageModel
     {
         private readonly ApiService _api;
 
         [BindProperty]
-        public Medicamento Medicamento { get; set; } = new();
+        public VitalConnect_API.Models.Medicamento Medicamento { get; set; } = new()
+        {
+            Estado = true
+        };
 
         public AgregarModel(ApiService api)
         {
             _api = api;
         }
 
-        public async Task<IActionResult> OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || string.IsNullOrWhiteSpace(Medicamento.Nombre))
+            {
                 return Page();
+            }
 
-            await _api.PostAsync("Medicamento", Medicamento);
+            var ok = await _api.PostAsync("api/Medicamento", Medicamento);
 
-            return RedirectToPage("Medicamento");
+            if (ok)
+            {
+                return RedirectToPage("Medicamento");
+            }
+
+            ModelState.AddModelError(string.Empty, "Error al conectar con la API para guardar el medicamento.");
+            return Page();
         }
+
+        
     }
 }

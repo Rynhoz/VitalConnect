@@ -1,60 +1,83 @@
-﻿@page
-@model IndexModel
+﻿@page "{id?}"
+@model WEB_VitalConnectApi.Pages.CrearProfesionalModel
 @{
-    ViewData["Title"] = "Crear Profesional";
+    ViewData["Title"] = Model.Formulario.ID > 0 ? "Editar Médico" : "Registrar Médico";
 }
 
-<div class="container py-4">
-    <div class="row justify-content-center">
-        <div class="col-md-9 col-lg-7">
-            <div class="card shadow-sm border-0 rounded-4 bg-body-tertiary">
-                <div class="card-body p-5">
-                    <h2 class="fw-bold mb-4 text-info"><i class="bi bi-person-badge me-2"></i>Registrar Profesional</h2>
-                    <p class="text-muted mb-5">Ingrese los datos personales y credenciales médicas del profesional.</p>
+<div class="container mt-4">
+    <div class="card shadow rounded-4 p-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+            <div>
+                <h2 class="mb-1 text-info"><i class="bi bi-person-badge me-2"></i>@(Model.Formulario.ID > 0 ? "Editar Médico" : "Registrar Médico")</h2>
+                <p class="text-muted mb-0">Ingrese los datos personales y credenciales médicas del profesional.</p>
+            </div>
 
-                    <form method="post">
-                        <div class="row g-3">
-                            <div class="col-12">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control border-0 shadow-sm rounded-3" id="nombre" placeholder="Nombre Completo" required>
-                                    <label for="nombre">Nombre Completo</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control border-0 shadow-sm rounded-3" id="ci" placeholder="CI" required>
-                                    <label for="ci">Cédula de Identidad</label>
-                                </div>
-                            </div>
+            <a asp-page="/Lista" class="btn btn-outline-info">
+                Volver a la Lista
+            </a>
+        </div>
 
-                            <div class="col-md-6">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control border-0 shadow-sm rounded-3" id="matricula" placeholder="Matrícula" required>
-                                    <label for="matricula">Matrícula Profesional</label>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-floating mb-3">
-                                    <select class="form-select border-0 shadow-sm rounded-3" id="especialidad" required>
-                                        <option value="" selected disabled>Seleccione especialidad...</option>
-                                        <option value="Medicina General">Medicina General</option>
-                                        <option value="Pediatría">Pediatría</option>
-                                        <option value="Cardiología">Cardiología</option>
-                                        <option value="Ginecología">Ginecología</option>
-                                    </select>
-                                    <label for="especialidad">Especialidad Médica</label>
-                                </div>
-                            </div>
+        @if (!string.IsNullOrEmpty(Model.Mensaje))
+        {
+            <div class="alert alert-danger">
+                @Model.Mensaje
+            </div>
+        }
 
-                            <div class="col-md-12 mt-4">
-                                <button type="submit" class="btn btn-info text-white fw-bold w-100 py-3 rounded-3 shadow-sm">
-                                    <i class="bi bi-check-circle me-2"></i>Registrar Médico
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+        <form method="post">
+            <input asp-for="Formulario.ID" type="hidden" />
+
+            <div class="row g-3">
+                <div class="col-md-12">
+                    <label class="form-label">Nombre Completo</label>
+                    <input asp-for="Formulario.NombreCompleto" class="form-control" placeholder="Ej. Dr. Alexander Arias" required />
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Cédula de Identidad (CI)</label>
+                    <input asp-for="Formulario.CI" class="form-control" required />
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Teléfono</label>
+                    <input asp-for="Formulario.Telefono" class="form-control" placeholder="Ej. 75123456" required />
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Matrícula Profesional</label>
+                    <input asp-for="Formulario.MatriculaProfesional" class="form-control" required />
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Especialidad Médica</label>
+                    <select asp-for="Formulario.Especialidad" class="form-select" required>
+                        <option value="">Seleccione especialidad...</option>
+                        <option value="Medicina General">Medicina General</option>
+                        <option value="Pediatría">Pediatría</option>
+                        <option value="Cardiología">Cardiología</option>
+                        <option value="Ginecología">Ginecología</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Estado</label>
+                    <select asp-for="Formulario.Estado" class="form-select">
+                        <option value="true">Activo</option>
+                        <option value="false">Inactivo</option>
+                    </select>
                 </div>
             </div>
-        </div>
+
+            <div class="mt-5 d-flex gap-2">
+                <button type="submit" class="btn btn-info text-white fw-bold px-4">
+                    <i class="bi bi-check-circle me-2"></i>
+                    @(Model.Formulario.ID > 0 ? "Actualizar Datos" : "Guardar Médico")
+                </button>
+
+                <a asp-page="/CrearProfesional" class="btn btn-outline-secondary px-4">
+                    Limpiar
+                </a>
+            </div>
+        </form>
     </div>
 </div>
