@@ -22,6 +22,13 @@ namespace WEB_VitalConnectApi.Pages
         public async Task OnGet()
         {
             var citas = await _api.GetAsync<List<Cita>>("Cita");
+            
+            if(citas == null)
+            {
+                CitasHoy = 0;
+                PacientesSemana = 0;
+                return;
+            }
 
             CitasHoy = citas.Count(c => c.Fecha.Date == DateTime.Today);
 
