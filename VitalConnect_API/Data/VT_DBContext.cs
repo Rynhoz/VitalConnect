@@ -50,6 +50,8 @@ namespace VitalConnect_API.Data
             modelBuilder.Entity<Profesional>().ToTable("Profesionales");
             modelBuilder.Entity<Paciente>().ToTable("Pacientes");
             modelBuilder.Entity<Asistente>().ToTable("Asistentes");
+
+
         }
     }
 }
