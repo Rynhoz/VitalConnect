@@ -363,3 +363,8 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # SQLite databases
+*.db-wal
+*.db-shm
+.vs/
+bin/
+obj/
