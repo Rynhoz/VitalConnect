@@ -85,7 +85,7 @@ namespace VitalConnect_API.Controllers
             _context.Citas.Add(cita);
             await _context.SaveChangesAsync();
 
-            return Ok(cita);
+            return CreatedAtAction(nameof(GetCita), new { id = cita.CitaId }, cita);
         }
 
 

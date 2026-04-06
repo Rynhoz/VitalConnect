@@ -55,7 +55,7 @@ namespace VitalConnect_API.Controllers
             _context.Medicamentos.Add(medicamento);
             await _context.SaveChangesAsync();
 
-            return Ok(medicamento);
+            return CreatedAtAction(nameof(GetMedicamento), new { id = medicamento.MedicamentoId }, medicamento);
         }
 
         [HttpPut("{id}")]

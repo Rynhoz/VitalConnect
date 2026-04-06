@@ -92,7 +92,7 @@ namespace VitalConnect_API.Controllers
             _context.Recetas.Add(receta);
             await _context.SaveChangesAsync();
 
-            return Ok(receta);
+            return CreatedAtAction(nameof(GetReceta), new { id = receta.RecetaId}, receta);
         }
 
         [HttpPut("{id}")]
